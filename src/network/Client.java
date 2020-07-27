@@ -2,7 +2,7 @@ package network;
 
 import network.packet.Packet;
 import network.packet.PacketType;
-import util.Helper;
+import util.RuntimeHelper;
 
 import java.io.*;
 import java.net.*;
@@ -11,7 +11,7 @@ import java.net.*;
  * Simple Client utility class.
  * @author Jordan Gray
  * @since 0.1.0
- * @version 1
+ * @version 1.1
  */
 public final class Client {
 
@@ -20,19 +20,19 @@ public final class Client {
      * @return The server's response.
      * @throws IOException If the connections could not be esablished.
      */
-    public static Packet SendToServer(Packet toSend) throws IOException {
-        Helper.Log("[Client]", "Client attempting to connect to server..");
+    public static Packet sendToServer(Packet toSend) throws IOException {
+        RuntimeHelper.log("[Client]", "Client attempting to connect to server..");
         Socket socket = new Socket(Server.DEFAULT_IP, Server.PORT);                                                     // Create socket connected to the server's
-        Helper.Log("[Client]", "Connected to " + socket.getInetAddress());
+        RuntimeHelper.log("[Client]", "Connected to " + socket.getInetAddress());
 
         // Connected to server, create stream.
         ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
         ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
 
-        Helper.Log("[Client]", "Sending packet of type " + toSend.type + "to connected server");
+        RuntimeHelper.log("[Client]", "Sending packet of type " + toSend.type + "to connected server");
         out.writeObject(toSend);                                                                                        // Send packet
 
-        Helper.Log("[Client]",  "Awaiting response.");
+        RuntimeHelper.log("[Client]",  "Awaiting response.");
         Packet response = null;                                                                                         // Get response
         try {
             response = (Packet) in.readObject();                                                                        // Read response from server
@@ -42,8 +42,8 @@ public final class Client {
         } // Response was not a packet object
 
 
-        Helper.Log("[Client]", "Client recieved response of type " + response.type.toString());
-        Helper.Log("[Client]", "Disconnecting from server");
+        RuntimeHelper.log("[Client]", "Client recieved response of type " + response.type.toString());
+        RuntimeHelper.log("[Client]", "Disconnecting from server");
 
         // Teardown
         in.close();
@@ -59,6 +59,6 @@ public final class Client {
      * @throws IOException If an io error occoured whilst creating or using the connection.
      */
     public static void main(String[] args) throws IOException {
-        SendToServer(new Packet(PacketType.ACKNOWLEDGE));
+        sendToServer(new Packet(PacketType.ACKNOWLEDGE));
     }
 }

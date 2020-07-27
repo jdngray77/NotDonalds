@@ -11,7 +11,7 @@ import java.util.List;
  * @version 1
  * @author Jordan Gray
  */
-public class Helper {
+public class RuntimeHelper {
 
     //#region logger
     /**
@@ -28,8 +28,8 @@ public class Helper {
      * Compiles and stores a message from an unknown sender. Parsed latest message to system.out.
      * @param message content of the message
      */
-    public static void Log(String message){
-        Log("[NULL SENDER]", message);
+    public static void log(String message){
+        log("[NULL SENDER]", message);
     }
 
     /**
@@ -37,8 +37,8 @@ public class Helper {
      * @param sender Object sending the message
      * @param message content of the message
      */
-    public static void Log(Object sender, String message) {
-        Log("[" + sender.getClass() + "]", message);
+    public static void log(Object sender, String message) {
+        log("[" + sender.getClass() + "]", message);
     }
 
     /**
@@ -46,8 +46,8 @@ public class Helper {
      * @param sender Class sending the message
      * @param message content of the message
      */
-    public static void Log(Class<?> sender, String message) {
-        Log((sender == null) ? "[NULL OBJECT]" : sender.getSimpleName(), message);
+    public static void log(Class<?> sender, String message) {
+        log((sender == null) ? "[NULL OBJECT]" : sender.getSimpleName(), message);
     }
 
     /**
@@ -55,7 +55,7 @@ public class Helper {
      * @param sender Sender of the message. Only use this directly if calling from a static location. Ensure to use '[..]' to maintain conformity.
      * @param message content of the message
      */
-    public static void Log(String sender, String message){
+    public static void log(String sender, String message){
         logs.add(LOG_PREFACE + " " +                          // Create and log message
                 sender + ": " +
                 message
@@ -72,7 +72,7 @@ public class Helper {
      * @param code Standardised local halt code.
      */
     public static void halt(HaltCodes code){
-        Log("[HALT] Halting with code " + code.toString());
+        log("[HALT] Halting with code " + code.toString());
         Runtime.getRuntime().halt(code.ordinal());
     }
     //#endregion

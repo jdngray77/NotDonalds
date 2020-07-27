@@ -2,7 +2,7 @@ package network;
 
 import network.packet.Packet;
 import util.HaltCodes;
-import util.Helper;
+import util.RuntimeHelper;
 
 import javax.swing.*;
 import java.io.*;
@@ -13,18 +13,9 @@ import java.net.*;
  *
  * @author Jordan Gray
  * @verison 1
- * @since 0.1.0
+ * @since 0.1.1
  */
 public class Server implements Runnable {
-
-    /**
-     * Creates and starts a new server
-     * @throws IOException
-     */
-    public Server() throws IOException {
-        setAddress();
-        listener = new ServerSocket(PORT, 0, address);
-    }
 
     //#region properties
     /**
@@ -59,12 +50,12 @@ public class Server implements Runnable {
             try {
                 address = (Inet4Address) Inet4Address.getByName(DEFAULT_IP);
             } catch (UnknownHostException e) {
-                Helper.Log("[Server]", "Failed to resolve default IP, prompting for manual IP");
+                RuntimeHelper.log("[Server]", "Failed to resolve default IP, prompting for manual IP");
                 try {
                     address = (Inet4Address) Inet4Address.getByName(JOptionPane.showInputDialog(null, "Enter Host IP", DEFAULT_IP, JOptionPane.WARNING_MESSAGE));
                 } catch (UnknownHostException unknownHostException) {
                     JOptionPane.showMessageDialog(null, unknownHostException.getMessage(), "Failed to resolve", JOptionPane.ERROR_MESSAGE);
-                    Helper.halt(HaltCodes.FATAL_SERVER_RESOLVE_FAILED);
+                    RuntimeHelper.halt(HaltCodes.FATAL_SERVER_RESOLVE_FAILED);
                 }
             }
         }
@@ -78,6 +69,16 @@ public class Server implements Runnable {
 
 
     /**
+     * Creates and starts a new server
+     * @throws IOException
+     */
+    public Server() throws IOException {
+        setAddress();
+        listener = new ServerSocket(PORT, 0, address);
+    }
+
+
+    /**
      * Run the server in a new thread.
      *
      * Monitors socket for connection attempts. Reads objects in objects and responds.
@@ -86,19 +87,19 @@ public class Server implements Runnable {
      */
     @Override
     public void run() {
-        Helper.Log(this, "Server now listening @ " + listener.getInetAddress() + ":" + listener.getLocalPort());
+        RuntimeHelper.log(this, "Server now listening @ " + listener.getInetAddress() + ":" + listener.getLocalPort());
 
         while(true) {
             try {
                 Socket clientSocket = listener.accept();                                                                // Wait and listen for a client to connect
-                Helper.Log(this, "New Client Connected");
+                RuntimeHelper.log(this, "New Client Connected");
 
                 // We now have a client, create streams to it
                 ObjectOutputStream out = new ObjectOutputStream(clientSocket.getOutputStream());
                 ObjectInputStream in = new ObjectInputStream(clientSocket.getInputStream());
 
                 Packet packet = (Packet) in.readObject();                                                               // Wait for client to send object, and read it
-                Helper.Log(this, "Recieved packet of type " + packet.type);
+                RuntimeHelper.log(this, "Recieved packet of type " + packet.type);
 
                 out.writeObject(Packet.processServerResponse(packet));                                                        // Process packet, get response, return response to client.
 
@@ -118,7 +119,7 @@ public class Server implements Runnable {
      * @throws IOException if an io error occurs whilst initialising the server.
      */
     public static void main (String[] args) throws IOException {
-        Helper.Log("[Server]", "Server running as a debug session.");
+        RuntimeHelper.log("[Server]", "Server running as a debug session.");
         new Thread(new Server()).start();                                                                               // Start a new server thread.
     }
 }

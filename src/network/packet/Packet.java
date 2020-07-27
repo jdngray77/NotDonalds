@@ -1,7 +1,5 @@
 package network.packet;
 
-import util.Helper;
-
 import java.io.Serializable;
 
 /**
@@ -10,7 +8,7 @@ import java.io.Serializable;
  * Basis for all client > server relations for NotDonalds.
  * @author Jordan Gray
  * @since 0.1.0
- * @version 1
+ * @version 1.1
  */
 public class Packet implements Serializable {
 
@@ -48,6 +46,7 @@ public class Packet implements Serializable {
         if (packet == null) return new Packet(PacketType.REJECT);
 
         switch (packet._type) {
+            default:
             case REJECT:                                    // Client cannot request with a response. ACK and REJ are rejected.
             case ACKNOWLEDGE:
                 return new Packet(PacketType.REJECT);
@@ -60,11 +59,7 @@ public class Packet implements Serializable {
 
             case REFUND:
                 return new Packet(PacketType.REJECT);      // Temporary, not implemented.
-
         }
-
-        Helper.Log("[Packet]", "[!! WARN !!] packet processing did not return a response. Defaulting to REJECT");
-        return new Packet(PacketType.REJECT);              // This should never be allowed to be reached.
     }
     //#endregion
 }
