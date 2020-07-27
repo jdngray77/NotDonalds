@@ -1,7 +1,8 @@
 package util;
 
-public class Logger {
+public class Helper {
 
+    //#region logger
     private static String PREFACE = "[ND]";
 
     public static void internal(String message){
@@ -23,4 +24,13 @@ public class Logger {
                 message
                 );
     }
+    //#endregion
+
+    //#region runtime
+    public static void halt(ExitCodes code){
+        internal("[HALT] Halting with code " + code.toString());
+        Runtime.getRuntime().halt(code.ordinal());
+    }
+    //#endregion
+
 }
