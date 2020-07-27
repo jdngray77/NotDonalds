@@ -43,6 +43,8 @@ public class Server implements Runnable {
      */
     protected ServerSocket listener;
 
+    /**
+     * Time at which this server instance was created.
      * Used to determine up-time.
      */
     private final long startTime = System.currentTimeMillis();

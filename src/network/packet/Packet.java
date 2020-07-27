@@ -14,6 +14,11 @@ public class Packet implements Serializable {
 
     //#region properties
     /**
+     * Can be used for descriptions or other human friendly messages. Not for packet data.
+     */
+    public String metaMessage = "";
+
+    /**
      * The message type expected to be found in this packet
      */
     private PacketType _type;
@@ -22,12 +27,6 @@ public class Packet implements Serializable {
      * returns the type of this packet's message
      */
     public PacketType type() {return _type;}
-
-    /**
-     * Can be used for descriptions or other human friendly messages. Not for packet data.
-     */
-    public String metaMessage = "";
-
     //#endregion
 
     /**

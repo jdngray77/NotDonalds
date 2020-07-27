@@ -4,7 +4,6 @@ import network.packet.Packet;
 import network.packet.PacketType;
 import util.RuntimeHelper;
 
-import java.awt.*;
 import java.io.*;
 import java.net.*;
 
