@@ -39,6 +39,11 @@ public class Server implements Runnable {
     public static Inet4Address getAddress = address;
 
     /**
+     * Socket for the server to listen on
+     */
+    protected ServerSocket listener;
+
+    /**
      * Assigns static address to the server, if there isn't one already.
      *
      * Attempts to resolve default address.
@@ -60,11 +65,6 @@ public class Server implements Runnable {
             }
         }
     }
-
-    /**
-     * Socket for the server to listen on
-     */
-    protected ServerSocket listener;
     //#endregion
 
 
