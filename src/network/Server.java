@@ -1,6 +1,7 @@
 package network;
 
-import util.ExitCodes;
+import network.packet.Packet;
+import util.HaltCodes;
 import util.Helper;
 
 import javax.swing.*;
@@ -58,12 +59,12 @@ public class Server implements Runnable {
             try {
                 address = (Inet4Address) Inet4Address.getByName(DEFAULT_IP);
             } catch (UnknownHostException e) {
-                Helper.internal("[Server]", "Failed to resolve default IP, prompting for manual IP");
+                Helper.Log("[Server]", "Failed to resolve default IP, prompting for manual IP");
                 try {
                     address = (Inet4Address) Inet4Address.getByName(JOptionPane.showInputDialog(null, "Enter Host IP", DEFAULT_IP, JOptionPane.WARNING_MESSAGE));
                 } catch (UnknownHostException unknownHostException) {
                     JOptionPane.showMessageDialog(null, unknownHostException.getMessage(), "Failed to resolve", JOptionPane.ERROR_MESSAGE);
-                    Helper.halt(ExitCodes.SERVER_RESOLVE_FAILED);
+                    Helper.halt(HaltCodes.FATAL_SERVER_RESOLVE_FAILED);
                 }
             }
         }
@@ -85,21 +86,21 @@ public class Server implements Runnable {
      */
     @Override
     public void run() {
-        Helper.internal(this, "Server now listening @ " + listener.getInetAddress() + ":" + listener.getLocalPort());
+        Helper.Log(this, "Server now listening @ " + listener.getInetAddress() + ":" + listener.getLocalPort());
 
         while(true) {
             try {
                 Socket clientSocket = listener.accept();                                                                // Wait and listen for a client to connect
-                Helper.internal(this, "New Client Connected");
+                Helper.Log(this, "New Client Connected");
 
                 // We now have a client, create streams to it
                 ObjectOutputStream out = new ObjectOutputStream(clientSocket.getOutputStream());
                 ObjectInputStream in = new ObjectInputStream(clientSocket.getInputStream());
 
                 Packet packet = (Packet) in.readObject();                                                               // Wait for client to send object, and read it
-                Helper.internal(this, "Recieved packet of type " + packet.type);
+                Helper.Log(this, "Recieved packet of type " + packet.type);
 
-                out.writeObject(Packet.processResponse(packet));                                                        // Process packet, get response, return response to client.
+                out.writeObject(Packet.processServerResponse(packet));                                                        // Process packet, get response, return response to client.
 
                 // Teardown connection with current client.
                 out.close();
@@ -117,7 +118,7 @@ public class Server implements Runnable {
      * @throws IOException if an io error occurs whilst initialising the server.
      */
     public static void main (String[] args) throws IOException {
-        Helper.internal("[Server]", "Server running as a debug session.");
+        Helper.Log("[Server]", "Server running as a debug session.");
         new Thread(new Server()).start();                                                                               // Start a new server thread.
     }
 }

@@ -1,5 +1,7 @@
 package network;
 
+import network.packet.Packet;
+import network.packet.PacketType;
 import util.Helper;
 
 import java.io.*;
@@ -8,6 +10,8 @@ import java.net.*;
 /**
  * Simple Client utility class.
  * @author Jordan Gray
+ * @since 0.1.0
+ * @version 1
  */
 public final class Client {
 
@@ -17,28 +21,30 @@ public final class Client {
      * @throws IOException If the connections could not be esablished.
      */
     public static Packet SendToServer(Packet toSend) throws IOException {
-        Helper.internal("[Client]", "Client attempting to connect to server..");
+        Helper.Log("[Client]", "Client attempting to connect to server..");
         Socket socket = new Socket(Server.DEFAULT_IP, Server.PORT);                                                     // Create socket connected to the server's
-        Helper.internal("[Client]", "Connected to " + socket.getInetAddress());
+        Helper.Log("[Client]", "Connected to " + socket.getInetAddress());
 
         // Connected to server, create stream.
         ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
         ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
 
-        Helper.internal("[Client]", "Sending packet of type " + toSend.type + "to connected server");
+        Helper.Log("[Client]", "Sending packet of type " + toSend.type + "to connected server");
         out.writeObject(toSend);                                                                                        // Send packet
 
-        Helper.internal("[Client]",  "Awaiting response.");
+        Helper.Log("[Client]",  "Awaiting response.");
         Packet response = null;                                                                                         // Get response
         try {
-            response = (Packet) in.readObject();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();                                                                                        // Response was not found
-        } catch (ClassCastException e) {
-            e.printStackTrace();                                                                                        // Response was not a packet object
-        }
-        Helper.internal("[Client]", "Client recieved response of type " + response.type.toString());
-        Helper.internal("[Client]", "Disconnecting from server");
+            response = (Packet) in.readObject();                                                                        // Read response from server
+            assert response != null;                                                                                    // Assert response
+        } catch (ClassNotFoundException | ClassCastException e) {
+            e.printStackTrace();                                                                                        // Response was not found, or was not a valid packet object.
+        } // Response was not a packet object
+
+
+        Helper.Log("[Client]", "Client recieved response of type " + response.type.toString());
+        Helper.Log("[Client]", "Disconnecting from server");
+
         // Teardown
         in.close();
         out.close();
@@ -46,8 +52,13 @@ public final class Client {
         return response;
     }
 
+    /**
+     * Debug entry only.
+     * Sends a test ackknowledgement packet to a server at local host.
+     * @param args Commandline args - unused.
+     * @throws IOException If an io error occoured whilst creating or using the connection.
+     */
     public static void main(String[] args) throws IOException {
-        SendToServer(new Packet(MessageType.ACKNOWLEDGE));
+        SendToServer(new Packet(PacketType.ACKNOWLEDGE));
     }
-
 }
