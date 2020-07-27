@@ -4,6 +4,7 @@ import network.packet.Packet;
 import network.packet.PacketType;
 import util.RuntimeHelper;
 
+import java.awt.*;
 import java.io.*;
 import java.net.*;
 
@@ -21,29 +22,26 @@ public final class Client {
      * @throws IOException If the connections could not be esablished.
      */
     public static Packet sendToServer(Packet toSend) throws IOException {
-        RuntimeHelper.log("[Client]", "Client attempting to connect to server..");
         Socket socket = new Socket(Server.DEFAULT_IP, Server.PORT);                                                     // Create socket connected to the server's
-        RuntimeHelper.log("[Client]", "Connected to " + socket.getInetAddress());
 
         // Connected to server, create stream.
         ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
         ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
 
-        RuntimeHelper.log("[Client]", "Sending packet of type " + toSend.type + "to connected server");
+
         out.writeObject(toSend);                                                                                        // Send packet
 
-        RuntimeHelper.log("[Client]",  "Awaiting response.");
         Packet response = null;                                                                                         // Get response
         try {
             response = (Packet) in.readObject();                                                                        // Read response from server
-            assert response != null;                                                                                    // Assert response
+            assert response != null;                                                                                    // Assert response recieved
         } catch (ClassNotFoundException | ClassCastException e) {
             e.printStackTrace();                                                                                        // Response was not found, or was not a valid packet object.
         } // Response was not a packet object
 
-
-        RuntimeHelper.log("[Client]", "Client recieved response of type " + response.type.toString());
-        RuntimeHelper.log("[Client]", "Disconnecting from server");
+        RuntimeHelper.log("[Client]", "Sent " + toSend.type() + ", Recieved " + response.type() +       // Log entire communication.
+                ((response.metaMessage == null) ? "" : "; " + response.metaMessage)                                     // If no message, append nothing. Else format and append.
+                );
 
         // Teardown
         in.close();
@@ -54,11 +52,12 @@ public final class Client {
 
     /**
      * Debug entry only.
-     * Sends a test ackknowledgement packet to a server at local host.
+     * Sends an empty packet for every packet type available to the client.
      * @param args Commandline args - unused.
      * @throws IOException If an io error occoured whilst creating or using the connection.
      */
     public static void main(String[] args) throws IOException {
-        sendToServer(new Packet(PacketType.ACKNOWLEDGE));
+        for (PacketType e : PacketType.values())
+            sendToServer(new Packet(e));
     }
 }

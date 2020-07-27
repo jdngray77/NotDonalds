@@ -21,17 +21,33 @@ public class Packet implements Serializable {
     /**
      * returns the type of this packet's message
      */
-    public PacketType type = _type;
+    public PacketType type() {return _type;}
+
+    /**
+     * Can be used for descriptions or other human friendly messages. Not for packet data.
+     */
+    public String metaMessage = "";
 
     //#endregion
 
     /**
      * Creates a new packet
-     * @param _type - Message type contained within this packet
+     * @param type - Message type contained within this packet
      */
-    public Packet(PacketType _type){
-        this._type = _type;
+    public Packet(PacketType type){
+        this(type, "");
     }
+
+    /**
+     * Creates a new packet
+     * @param type - Message type contained within this packet
+     * @param _metaMessage Human friendly message about this packet.
+     */
+    public Packet(PacketType type, String _metaMessage){
+        _type = type;
+        metaMessage = _metaMessage;
+    }
+
 
 
     //#region static utils
@@ -47,18 +63,18 @@ public class Packet implements Serializable {
 
         switch (packet._type) {
             default:
-            case REJECT:                                    // Client cannot request with a response. ACK and REJ are rejected.
+                return new Packet(PacketType.REJECT, "Message type not recognised.");
+
+            case REJECT:                                                                                                // Client cannot request the server with a response response. ACK and REJ are rejected as not being requests.
             case ACKNOWLEDGE:
-                return new Packet(PacketType.REJECT);
+                return new Packet(PacketType.REJECT, "Packet recieved was not a request.");
 
             case PING:
-                return new Packet(PacketType.ACKNOWLEDGE); // PING is acknowledged
-
-            case ORDER:                                     // Recieved an order, handle. Return REJ or ACK depending on if the order is accepted.
-                return new Packet(PacketType.REJECT);      // Temporary, not implemented.
+                return new Packet(PacketType.ACKNOWLEDGE, "Pong!");                                         // PING is acknowledged
 
             case REFUND:
-                return new Packet(PacketType.REJECT);      // Temporary, not implemented.
+            case ORDER:                                                                                                 // Recieved an order, handle. Return REJ or ACK depending on if the order is accepted.
+                return new Packet(PacketType.REJECT, "Server not yet equipt to handle this request.");     // Temporary, not implemented.
         }
     }
     //#endregion

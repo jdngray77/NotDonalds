@@ -13,7 +13,7 @@ import java.net.*;
  *
  * @author Jordan Gray
  * @verison 1
- * @since 0.1.1
+ * @since 0.1.2
  */
 public class Server implements Runnable {
 
@@ -43,6 +43,15 @@ public class Server implements Runnable {
      */
     protected ServerSocket listener;
 
+     * Used to determine up-time.
+     */
+    private final long startTime = System.currentTimeMillis();
+
+    /**
+     * # of ms that've passed since this server instance was created
+     */
+    public long getUpTime() {return System.currentTimeMillis() - startTime;}
+
     /**
      * Assigns static address to the server, if there isn't one already.
      *
@@ -51,7 +60,6 @@ public class Server implements Runnable {
      * If failed, fatal - server has no address. Halts with SERVER_RESOLVE_FAILED
      */
     private static void setAddress(){
-        if (address == null){
             try {
                 address = (Inet4Address) Inet4Address.getByName(DEFAULT_IP);
             } catch (UnknownHostException e) {
@@ -63,7 +71,6 @@ public class Server implements Runnable {
                     RuntimeHelper.halt(HaltCodes.FATAL_SERVER_RESOLVE_FAILED);
                 }
             }
-        }
     }
     //#endregion
 
@@ -74,9 +81,13 @@ public class Server implements Runnable {
      */
     public Server() throws IOException {
         setAddress();
-        listener = new ServerSocket(PORT, 0, address);
+        try {
+            listener = new ServerSocket(PORT, 0, address);
+        } catch (BindException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(),"Failed to Bind", JOptionPane.ERROR_MESSAGE); // Failed to bind to address
+            RuntimeHelper.halt(HaltCodes.FATAL_SERVER_BIND_FAILED);
+        }
     }
-
 
     /**
      * Run the server in a new thread.
@@ -92,16 +103,19 @@ public class Server implements Runnable {
         while(true) {
             try {
                 Socket clientSocket = listener.accept();                                                                // Wait and listen for a client to connect
-                RuntimeHelper.log(this, "New Client Connected");
 
                 // We now have a client, create streams to it
                 ObjectOutputStream out = new ObjectOutputStream(clientSocket.getOutputStream());
                 ObjectInputStream in = new ObjectInputStream(clientSocket.getInputStream());
 
-                Packet packet = (Packet) in.readObject();                                                               // Wait for client to send object, and read it
-                RuntimeHelper.log(this, "Recieved packet of type " + packet.type);
+                Packet recieved = (Packet) in.readObject();                                                             // Wait for client to send object, and read it
+                Packet response = Packet.processServerResponse(recieved);
+                out.writeObject(response);                                                                              // Process packet, get response, return response to client.
 
-                out.writeObject(Packet.processServerResponse(packet));                                                        // Process packet, get response, return response to client.
+                RuntimeHelper.log(this,
+                        "[" + getUpTime() + "] " +
+                        "Recieved " + recieved.type() +
+                        ", responded with " + response.type());
 
                 // Teardown connection with current client.
                 out.close();
@@ -119,7 +133,7 @@ public class Server implements Runnable {
      * @throws IOException if an io error occurs whilst initialising the server.
      */
     public static void main (String[] args) throws IOException {
-        RuntimeHelper.log("[Server]", "Server running as a debug session.");
+        RuntimeHelper.log("[Server]", "Server running as a standalone debug session.");
         new Thread(new Server()).start();                                                                               // Start a new server thread.
     }
 }

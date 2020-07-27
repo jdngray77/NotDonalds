@@ -38,7 +38,7 @@ public class RuntimeHelper {
      * @param message content of the message
      */
     public static void log(Object sender, String message) {
-        log("[" + sender.getClass() + "]", message);
+        log("[" + sender.getClass().getSimpleName() + "]", message);
     }
 
     /**
@@ -72,7 +72,7 @@ public class RuntimeHelper {
      * @param code Standardised local halt code.
      */
     public static void halt(HaltCodes code){
-        log("[HALT] Halting with code " + code.toString());
+        log("[HALT] HALTING WITH CAUSE " + code.toString());
         Runtime.getRuntime().halt(code.ordinal());
     }
     //#endregion
