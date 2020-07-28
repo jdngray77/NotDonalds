@@ -56,7 +56,8 @@ public final class Client {
      * @throws IOException If an io error occoured whilst creating or using the connection.
      */
     public static void main(String[] args) throws IOException {
-        for (PacketType e : PacketType.values())
-            sendToServer(new Packet(e));
+        while (true)
+            for (PacketType e : PacketType.values())
+                sendToServer(new Packet(e));
     }
 }

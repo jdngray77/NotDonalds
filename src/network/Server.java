@@ -115,7 +115,7 @@ public class Server implements Runnable {
                 out.writeObject(response);                                                                              // Process packet, get response, return response to client.
 
                 RuntimeHelper.log(this,
-                        "[" + getUpTime() + "] " +
+                        "[" + getUpTime() / 1000 + "s up] " +
                         "Recieved " + recieved.type() +
                         ", responded with " + response.type());
 
