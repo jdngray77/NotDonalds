@@ -1,5 +1,6 @@
 package util;
 
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +13,13 @@ import java.util.List;
  * @author Jordan Gray
  */
 public class RuntimeHelper {
+
+
+    /**
+     * HH:mm date time formatter
+     */
+    public static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+
 
     //#region logger
     /**

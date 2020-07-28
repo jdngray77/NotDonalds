@@ -6,6 +6,7 @@ import util.RuntimeHelper;
 
 import java.io.*;
 import java.net.*;
+import java.time.LocalTime;
 
 /**
  * Simple Client utility class.
@@ -38,7 +39,7 @@ public final class Client {
             e.printStackTrace();                                                                                        // Response was not found, or was not a valid packet object.
         } // Response was not a packet object
 
-        RuntimeHelper.log("[Client]", "Sent " + toSend.type() + ", Recieved " + response.type() +       // Log entire communication.
+        RuntimeHelper.log("[Client]", "[" + LocalTime.now().format(RuntimeHelper.formatter) + "] Sent " + toSend.type() + ", Recieved " + response.type() +       // Log entire communication.
                 ((response.metaMessage == null) ? "" : "; " + response.metaMessage)                                     // If no message, append nothing. Else format and append.
                 );
 
