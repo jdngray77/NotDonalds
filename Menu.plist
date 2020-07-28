@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+    <dict>
+        <key>Menu Item</key>
+        <dict>
+            <key>Main</key>
+            <dict>
+                <key>Mac N' Cheese</key>
+                <real>4.6</real>
+                <key>Spaghetti &amp; Meatballs</key>
+                <real>4.8</real>
+                <key>Lasagna</key>
+                <real>5</real>
+                <key>Pasta Bake</key>
+                <real>3.9</real>
+                <key>Beef Burger</key>
+                <real>5.2</real>
+                <key>Cheese Burger</key>
+                <real>5.5</real>
+                <key>Veggie Burger</key>
+                <real>6</real>
+                <key>6 oz Steak</key>
+                <real>8.4</real>
+                <key>Sausage &amp; Mash</key>
+                <real>4.8</real>
+                <key>Roast</key>
+                <real>7.2</real>
+                <key>BYO Pizza</key>
+                <real>7.5</real>
+                <key>Burrito</key>
+                <real>5.6</real>
+                <key>Chips &amp; Fish</key>
+                <real>4.6</real>
+                <key>Curry</key>
+                <real>4.9</real>
+            </dict>
+            <key>Side</key>
+            <dict>
+                <key>Fresh Vegetables</key>
+                <real>2.5</real>
+                <key>Green Vegetables</key>
+                <real>2.4</real>
+                <key>Chips</key>
+                <real>2.8</real>
+                <key>Cheese Side (4)</key>
+                <real>3</real>
+                <key>Garlic Bread</key>
+                <real>2.6</real>
+                <key>Chicken Wings (4)</key>
+                <real>3.4</real>
+                <key>Onion Rings (5)</key>
+                <string>3.00</string>
+            </dict>
+            <key>Drink</key>
+            <dict>
+                <key>Cold</key>
+                <dict>
+                    <key>Cuke</key>
+                    <real>2.4</real>
+                    <key>Diet Cuke</key>
+                    <real>2.2</real>
+                    <key>Funta</key>
+                    <real>2.4</real>
+                    <key>Sproot</key>
+                    <real>2.4</real>
+                    <key>Bottled Water</key>
+                    <real>1.8</real>
+                    <key>Orange Juice</key>
+                    <real>2</real>
+                    <key>Apple Juice</key>
+                    <real>2</real>
+                    <key>Awaysis</key>
+                    <real>2</real>
+                    <key>Shute Froot</key>
+                    <real>2</real>
+                    <key>jO2</key>
+                    <real>2.8</real>
+                </dict>
+                <key>Hot</key>
+                <dict>
+                    <key>Tea</key>
+                    <real>2</real>
+                    <key>White Coffee</key>
+                    <real>2.8</real>
+                    <key>Black Coffee</key>
+                    <real>2.4</real>
+                    <key>Latte</key>
+                    <real>3</real>
+                    <key>Cappuccino</key>
+                    <real>3.4</real>
+                    <key>Pupperchino</key>
+                    <real>2.2</real>
+                </dict>
+                <key>Alcoholic</key>
+                <dict>
+                    <key>Beer</key>
+                    <real>3.8</real>
+                    <key>Lager</key>
+                    <real>3.8</real>
+                    <key>Ale</key>
+                    <real>3.6</real>
+                    <key>Red Wine</key>
+                    <real>4.8</real>
+                    <key>White Wine</key>
+                    <real>5</real>
+                    <key>Vodka Mixer</key>
+                    <real>3.6</real>
+                    <key>Rum Mixer</key>
+                    <real>3.8</real>
+                </dict>
+            </dict>
+            <key>Dessert</key>
+            <dict>
+                <key>Rocky Horror</key>
+                <real>3.9</real>
+                <key>Ice Cream (3 Scoops)</key>
+                <real>3.2</real>
+                <key>Brownie</key>
+                <real>3.6</real>
+                <key>Blueberry Muffin</key>
+                <real>2.6</real>
+                <key>Apple Pie</key>
+                <real>4</real>
+                <key>Raspberry Cheesecake</key>
+                <real>3.8</real>
+                <key>Fresh Fruit</key>
+                <real>2.8</real>
+            </dict>
+        </dict>
+    </dict>
+</plist>
