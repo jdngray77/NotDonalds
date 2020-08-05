@@ -1,5 +1,6 @@
 package sale.price;
 
+import jdk.jshell.spi.ExecutionControl.NotImplementedException;
 import util.Finals;
 
 /**
@@ -10,6 +11,9 @@ import util.Finals;
  * Format is ($/£/¥/€)
  *
  * Used only to store and get values, does not calculate or validate.
+ *
+ * Only intended to be used within this package.
+ * Whilst generic abstract, this should only be used with instances of numeric data types.
  */
 abstract class Price<T> implements IPrice<T> {
 
@@ -36,6 +40,7 @@ abstract class Price<T> implements IPrice<T> {
      * Left if false, Right if true.
      */
     private boolean rtl;
+
 
     /**
      * Create a price
@@ -64,6 +69,14 @@ abstract class Price<T> implements IPrice<T> {
      * @param _rtl Determines if the notation symbol appears on the left or right. Right if true.
      */
     public Price(T _decimal, T _fractional, char _symbol, boolean _rtl){
+        this.overridePrice(_decimal, _fractional, _symbol, _rtl);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    @Override
+    public void overridePrice(T _decimal, T _fractional, char _symbol, boolean _rtl){
         fractional = _fractional;
         decimal = _decimal;
         symbol = _symbol;
@@ -74,24 +87,68 @@ abstract class Price<T> implements IPrice<T> {
      * @inheritDoc
      */
     @Override
-    public float asFloat() {
-        return Float.parseFloat( decimal.toString() + "." + fractional.toString());
-    }
+    public T getDecimal() {return decimal;}
 
     /**
      * @inheritDoc
      */
     @Override
-    public double asDouble() {
-        return Double.parseDouble( decimal.toString() + "." + fractional.toString());
+    public T getFractional() {return fractional;}
+
+    /**
+     * @inheritDoc
+     */
+    @Override
+    public boolean getRTL() {return rtl;}
+
+    /**
+     * @inheritDoc
+     */
+    @Override
+    public char getSymbol() {return symbol;}
+
+
+    /**
+     * @inheritDoc
+     *
+     * Formats price according to rtl; if rtl, fractional.decimal, else decimal.fractional.)
+     */
+    @Override
+    public float asFloat() {
+        return rtl?
+                Float.parseFloat( fractional.toString() + "." + decimal.toString())
+                :
+                Float.parseFloat( decimal.toString() + "." + fractional.toString()) ;
     }
 
     /**
      * @inheritDoc
+     * Formats price according to rtl; if rtl, fractional.decimal, else decimal.fractional.)
+     */
+    @Override
+    public double asDouble() {
+        return rtl?
+                Double.parseDouble( decimal.toString() + "." + fractional.toString())
+                :
+                Double.parseDouble( fractional.toString() + "." +  decimal.toString());
+    }
+
+    /**
+     * @inheritDoc
+     *
+     * Formats price according to rtl; if rtl, fractional.decimal$, else $decimal.fractional.)
      */
     @Override
     public String asDisplay(){
         return rtl? String.valueOf(symbol + asDouble()) : String.valueOf(asDouble() + symbol);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    @Override
+    public void formatDecimal(T len) throws NotImplementedException {
+        throw new NotImplementedException("");
     }
 
 }

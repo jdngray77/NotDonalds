@@ -37,4 +37,14 @@ public final class SmallPrice extends Price<Byte>{
     public SmallPrice(Byte _decimal, Byte _fractional, char _symbol, boolean _rtl) {
         super(_decimal, _fractional, _symbol, _rtl);
     }
+
+    /**
+     * @inheritDoc
+     * @param len Maximum quantity permitted
+     */
+    @Override
+    public void formatDecimal(Byte len){
+        overridePrice((byte) (getDecimal() + Math.floorDiv(getFractional(), len)), (byte) (getFractional() % len), getSymbol(), getRTL());
+    }
+
 }

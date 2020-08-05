@@ -37,4 +37,13 @@ public final class LongPrice extends Price<Long> {
     public LongPrice(Long _decimal, Long _fractional, char _symbol, boolean _rtl) {
         super(_decimal, _fractional, _symbol, _rtl);
     }
+
+    /**
+     * @inheritDoc
+     * @param len Maximum quantity permitted
+     */
+    @Override
+    public void formatDecimal(Long len){
+        overridePrice(getDecimal() + Math.floorDiv(getFractional(), len), getFractional() % len, getSymbol(), getRTL());
+    }
 }

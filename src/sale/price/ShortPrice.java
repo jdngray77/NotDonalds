@@ -38,4 +38,13 @@ public final class ShortPrice extends Price<Short> {
     public ShortPrice(Short _decimal, Short _fractional, char _symbol, boolean _rtl) {
         super(_decimal, _fractional, _symbol, _rtl);
     }
+
+    /**
+     * @inheritDoc
+     * @param len Maximum quantity permitted
+     */
+    @Override
+    public void formatDecimal(Short len){
+        overridePrice((short) (getDecimal() + Math.floorDiv(getFractional(), len)), (short) (getFractional() % len), getSymbol(), getRTL());
+    }
 }
