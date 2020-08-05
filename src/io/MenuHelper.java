@@ -23,31 +23,55 @@ import java.util.HashMap;
  */
 public class MenuHelper {
 
-    public static Menu loadMenuFile(Path path){
+    /**
+     * Compiles a Menu object instance from a plist file on disk.
+     * @param path location of file to parse
+     * @return Compiled menu tree instance.
+     * @throws IOException if the file could not be read
+     * @throws XmlParseException if the file was not valid xml
+     */
+    public static Menu loadMenuFile(Path path) throws IOException, XmlParseException {
         return loadMenuFile(path.toString());
     }
 
-    public static Menu loadMenuFile(String path){
+    /**
+     * Compiles a Menu object instance from a plist file on disk.
+     * @param path location of file to parse
+     * @return Compiled menu tree instance.
+     * @throws IOException if the file could not be read
+     * @throws XmlParseException if the file was not valid xml
+     */
+    public static Menu loadMenuFile(String path) throws IOException, XmlParseException {
         return loadMenuFile(new File(path));
     }
 
-    public static Menu loadMenuFile(File file){
-        try {
-            return ParseMenuTree((HashMap) Plist.loadObject(file));
-        } catch (XmlParseException e) {
-            e.printStackTrace();    // File not formatted correctly
-        } catch (IOException e) {
-            e.printStackTrace();    // Error in getting file
-        }
-        return null;
+    /**
+     * Compiles a Menu object instance from a plist file on disk.
+     * @param file File to parse
+     * @return Compiled menu tree instance.
+     * @throws IOException if the file could not be read
+     * @throws XmlParseException if the file was not valid xml
+     */
+    public static Menu loadMenuFile(File file) throws IOException, XmlParseException {
+        return ParseMenuTree((HashMap) Plist.loadObject(file));
     }
 
+    /**
+     * Creates a menu object populated with the provided hashed menu map.
+     * @param XMLMenuObject hashmap to parse
+     * @return Compiled Menu Object
+     */
     private static Menu ParseMenuTree(HashMap XMLMenuObject) {
         Menu menu = new Menu();
         menu.contents.add(parseBranch(XMLMenuObject));
         return menu;
     }
 
+    /**
+     * Recursively parses branches to traverse the tree of the hash map loaded from the plist formatted xml file.
+     * @param branch HashMap to parse
+     * @return MenuCategory of the current branch. After recursion, returns entire menu tree from the provided map.
+     */
     private static MenuCategory parseBranch(HashMap branch){
         MenuCategory category = new MenuCategory();
 
@@ -76,8 +100,11 @@ public class MenuHelper {
     }
 
 
-
-    public static void main(String[] args) {
+    /**
+     * Debug execution, parses menu plist.
+     * @param args
+     */
+    public static void main(String[] args) throws IOException, XmlParseException {
         loadMenuFile("Menu.plist");
     }
 }
