@@ -1,6 +1,8 @@
 package network;
 
 import network.packet.Packet;
+import network.packet.PacketType;
+import sale.menu.Menu;
 import util.HaltCodes;
 import util.RuntimeHelper;
 
@@ -50,6 +52,19 @@ public class Server implements Runnable {
     private final long startTime = System.currentTimeMillis();
 
     /**
+     * Currently available menu tree instance.
+     */
+    private Menu menu;
+
+    /**
+     * Sets the menu this server serves to clients.
+     * @param _menu Menu tree instance to store.
+     */
+    public void loadMenu(Menu _menu) {
+        menu = _menu;
+    }
+
+    /**
      * # of ms that've passed since this server instance was created
      */
     public long getUpTime() {return System.currentTimeMillis() - startTime;}
@@ -79,13 +94,12 @@ public class Server implements Runnable {
 
     /**
      * Creates and starts a new server
-     * @throws IOException
      */
-    public Server() throws IOException {
+    public Server() {
         setAddress();
         try {
             listener = new ServerSocket(PORT, 0, address);
-        } catch (BindException e) {
+        } catch (IOException e) {
             JOptionPane.showMessageDialog(null, e.getMessage(),"Failed to Bind", JOptionPane.ERROR_MESSAGE); // Failed to bind to address
             RuntimeHelper.halt(HaltCodes.FATAL_SERVER_BIND_FAILED);
         }
@@ -111,7 +125,7 @@ public class Server implements Runnable {
                 ObjectInputStream in = new ObjectInputStream(clientSocket.getInputStream());
 
                 Packet recieved = (Packet) in.readObject();                                                             // Wait for client to send object, and read it
-                Packet response = Packet.processServerResponse(recieved);
+                Packet response = processServerResponse(recieved);
                 out.writeObject(response);                                                                              // Process packet, get response, return response to client.
 
                 RuntimeHelper.log(this,
@@ -130,6 +144,37 @@ public class Server implements Runnable {
     }
 
     /**
+     * Processes a packet recieved server side. Performs any required subroutine associated with requests, then returns a response.
+     *
+     * Packets processed server side must return a response.
+     * @param packet Packet to process
+     * @return Response packet
+     */
+    public Packet processServerResponse(Packet packet) {
+        if (packet == null) return new Packet(PacketType.REJECT);
+
+        switch (packet.type()) {
+            default:
+                return new Packet(PacketType.REJECT, "Message type not recognised.");
+
+
+            case REJECT:                                                                                                // Client cannot request the server with a response response. ACK and REJ are rejected as not being requests.
+            case ACKNOWLEDGE:
+                return new Packet(PacketType.REJECT, "Packet recieved was not a request.");
+
+            case PING:
+                return new Packet(PacketType.ACKNOWLEDGE, "Pong!");                                         // PING is acknowledged
+
+            case REFUND:
+            case ORDER:                                                                                                 // Recieved an order, handle. Return REJ or ACK depending on if the order is accepted.
+                return new Packet(PacketType.REJECT, "Server not yet equipt to handle this request.");     // Temporary, not implemented.
+
+            case MENU_REQUEST:
+                return menu == null? new Packet(PacketType.REJECT, "No menu is loaded on the server!") : new Packet(PacketType.ACKNOWLEDGE, menu);
+        }
+    }
+
+    /**
      * For debugging only. This class is not standalone.
      * @param args command line arguments
      * @throws IOException if an io error occurs whilst initialising the server.
@@ -138,5 +183,7 @@ public class Server implements Runnable {
         RuntimeHelper.log("[Server]", "Server running as a standalone debug session.");
         new Thread(new Server()).start();                                                                               // Start a new server thread.
     }
+
+
 }
 

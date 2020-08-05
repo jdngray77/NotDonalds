@@ -10,5 +10,6 @@ public enum PacketType implements Serializable {
     ORDER,
     REFUND,
     ACKNOWLEDGE,
-    REJECT
+    REJECT,
+    MENU_REQUEST    // Client reqeust copy of menu from the server
 }

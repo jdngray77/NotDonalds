@@ -2,10 +2,12 @@ package sale.price;
 
 import jdk.jshell.spi.ExecutionControl;
 
+import java.io.Serializable;
+
 /**
  * External interface for any price
  */
-public interface IPrice<T> {
+public interface IPrice<T> extends Serializable {
 
     /**
      * Overwrites the exsisting stored price with a new value, with out creating a new instance.

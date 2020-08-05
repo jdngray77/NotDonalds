@@ -2,6 +2,7 @@ package network;
 
 import network.packet.Packet;
 import network.packet.PacketType;
+import sale.menu.Menu;
 import util.RuntimeHelper;
 
 import java.io.*;
@@ -57,8 +58,35 @@ public final class Client {
      * @throws IOException If an io error occoured whilst creating or using the connection.
      */
     public static void main(String[] args) throws IOException {
+        // Test of getting menu from the server, over the network.
+        Menu menu = (Menu) sendToServer(new Packet(PacketType.MENU_REQUEST, "menu plz, bitch")).getPacketData();
+
+        // Test of repeatidly sending every available packet type.
         while (true)
             for (PacketType e : PacketType.values())
                 sendToServer(new Packet(e));
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
