@@ -12,7 +12,7 @@ import sale.price.ShortPrice;
  * @version 1
  * @author Jordan Gray
  */
-public class Item implements Sellable {
+public class Item extends Sellable {
 
     /**
      * Name of the Item

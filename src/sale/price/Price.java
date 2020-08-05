@@ -151,4 +151,23 @@ abstract class Price<T> implements IPrice<T> {
         throw new NotImplementedException("");
     }
 
+    /**
+     * Splits a double into two integers at the decimal point.
+     * Useful for generating price fractionals from real.
+     * i.e 10.13 = int[10, 13]
+     *
+     * @param d Double to split
+     * @return
+     */
+    public static Integer[] SplitDouble(Double d){
+        int a, b;
+        String dString = Double.toString(d);
+        String aString = dString.substring(0, 1);
+
+        String bString = dString.substring(2);
+        a = Integer.parseInt(aString);
+        b = Integer.parseInt(bString);
+        return new Integer[]{a,b};
+    }
+
 }

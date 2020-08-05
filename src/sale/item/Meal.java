@@ -10,7 +10,9 @@ import java.util.List;
 /**
  * A collection of single menu items, conciliated into a single sellable object.
  */
-public class Meal extends ArrayList<Item> implements Sellable {
+public class Meal extends Sellable {
+
+    public List<Item> items = new ArrayList<Item>();
 
     /**
      * @inheritDoc
@@ -22,7 +24,7 @@ public class Meal extends ArrayList<Item> implements Sellable {
         short decimal = 0;                                                                                              // Temporary storage for both sides of a decimalised price.
         short fractional = 0;
 
-        for (Item item : this){                                                                                         // For all items in this meal,
+        for (Item item : items){                                                                                         // For all items in this meal,
             decimal += item.Price().getDecimal();                                                                       // Add thier decimalised price to total values
             fractional += item.Price().getFractional();
         }
