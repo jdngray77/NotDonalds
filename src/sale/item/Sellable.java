@@ -6,6 +6,9 @@ import sale.price.ShortPrice;
 
 /**
  * Sellable menu item. It's assumed that items sold at this resturaunt will not exceed Short.Max.
+ * @author Jordan Gray
+ * @since 0.1.0
+ * @version 1
  */
 public abstract class Sellable extends MenuItem {
 

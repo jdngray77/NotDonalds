@@ -1,5 +1,6 @@
 package network;
 
+import io.MenuHelper;
 import network.packet.Packet;
 import network.packet.PacketType;
 import sale.menu.Menu;
@@ -10,12 +11,14 @@ import javax.swing.*;
 import java.io.*;
 import java.net.*;
 
+import io.MenuHelper;
+
 /**
  * Simple Single Line Server for receiving serialized objects.
  *
  * @author Jordan Gray
- * @verison 1
- * @since 0.1.2
+ * @verison 1.2
+ * @since 0.1.0
  */
 public class Server implements Runnable {
 
@@ -50,19 +53,6 @@ public class Server implements Runnable {
      * Used to determine up-time.
      */
     private final long startTime = System.currentTimeMillis();
-
-    /**
-     * Currently available menu tree instance.
-     */
-    private Menu menu;
-
-    /**
-     * Sets the menu this server serves to clients.
-     * @param _menu Menu tree instance to store.
-     */
-    public void loadMenu(Menu _menu) {
-        menu = _menu;
-    }
 
     /**
      * # of ms that've passed since this server instance was created
@@ -170,7 +160,7 @@ public class Server implements Runnable {
                 return new Packet(PacketType.REJECT, "Server not yet equipt to handle this request.");     // Temporary, not implemented.
 
             case MENU_REQUEST:
-                return menu == null? new Packet(PacketType.REJECT, "No menu is loaded on the server!") : new Packet(PacketType.ACKNOWLEDGE, menu);
+                return MenuHelper.menu == null? new Packet(PacketType.REJECT, "No menu is loaded on the server!") : new Packet(PacketType.ACKNOWLEDGE, MenuHelper.menu);
         }
     }
 

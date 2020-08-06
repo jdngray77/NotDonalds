@@ -14,14 +14,18 @@ import java.nio.file.Path;
 import java.util.HashMap;
 
 /**
- * Static menu plist utility container
+ * Static menu utility container
  *
- *
- * @author
+ * @author Jordan Gray
  * @since 0.1.0
  * @version 1
  */
 public class MenuHelper {
+
+    /**
+     * Static menu storage. Currently loaded menu for either client or server.
+     */
+    public static Menu menu;
 
     /**
      * Compiles a Menu object instance from a plist file on disk.
@@ -62,8 +66,8 @@ public class MenuHelper {
      * @return Compiled Menu Object
      */
     private static Menu ParseMenuTree(HashMap XMLMenuObject) {
-        Menu menu = new Menu();
-        menu.contents.add(parseBranch(XMLMenuObject));
+        Menu menu = new Menu("Default Menu");
+        menu.contents.add( parseBranch("Menu Tree Root", XMLMenuObject));
         return menu;
     }
 
@@ -72,8 +76,8 @@ public class MenuHelper {
      * @param branch HashMap to parse
      * @return MenuCategory of the current branch. After recursion, returns entire menu tree from the provided map.
      */
-    private static MenuCategory parseBranch(HashMap branch){
-        MenuCategory category = new MenuCategory();
+    private static MenuCategory parseBranch(String name, HashMap branch){
+        MenuCategory category = new MenuCategory(name);
 
         branch.forEach((k,v) ->{
             /*
@@ -82,13 +86,14 @@ public class MenuHelper {
              *      If not a HM<k,v>, then treat it as a value leaf for this category, as opposed to a new branch.
              */
             try {
-                category.contents.add(parseBranch((HashMap) v));                                                        // Parse child branch.
+                category.contents.add(parseBranch((String) k, (HashMap) v));                                            // Parse child branch.
             } catch (ClassCastException e) {
                 try {
-                    Integer[] fractions = ShortPrice.SplitDouble((Double) v);                                               // Parse as leaf; create and add item.
-                    ShortPrice price = new ShortPrice(fractions[0].shortValue(), fractions[1].shortValue());                // Split value into fractionals, and store in price
-                    Item item = new Item((String) k, price);                                                                // Create item with key as it's name, and price.
-                    category.contents.add(item);                                                                            // Add item to this category
+                    Integer[] fractions = ShortPrice.SplitDouble((Double) v);                                           // Parse as leaf; create and add item.
+                    ShortPrice price = new ShortPrice(fractions[0].shortValue(), fractions[1].shortValue());            // Split value into fractionals, and store in price
+                    Item item = new Item((String) k, price);                                                            // Create item with key as it's name, and price.
+                    System.out.println("[MENU LOAD] ADDED NEW ITEM " + (String) k + " @ " + price.asDisplay());
+                    category.contents.add(item);                                                                        // Add item to this category
                 } catch (ClassCastException e1)
                 {
                     // Invalid value, ignore

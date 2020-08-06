@@ -1,5 +1,6 @@
 package network;
 
+import io.MenuHelper;
 import network.packet.Packet;
 import network.packet.PacketType;
 import sale.menu.Menu;
@@ -59,7 +60,14 @@ public final class Client {
      */
     public static void main(String[] args) throws IOException {
         // Test of getting menu from the server, over the network.
-        Menu menu = (Menu) sendToServer(new Packet(PacketType.MENU_REQUEST, "menu plz, bitch")).getPacketData();
+        MenuHelper.menu =                                                   // Set client menu to response from server
+                (Menu)                                                      // Cast serialized response to a Menu class instance
+                        sendToServer(                                       // Send request to server;
+                                new Packet(PacketType.MENU_REQUEST,         // Request is a menu request
+                                        "menu plz, bitch"))    // Optional message about request
+                                .getPacketData();                           // Get serialized data from the server's response, to cast to Menu and store in client.
+
+
 
         // Test of repeatidly sending every available packet type.
         while (true)
