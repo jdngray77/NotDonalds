@@ -16,5 +16,5 @@ public abstract class Sellable extends MenuItem {
      * @apiNote Via abstraction, the instance returned may be Long, Short or Small (Byte) formatted prices.
      * @see sale.price
      */
-    public ShortPrice Price(){return null;}
+    public ShortPrice price(){return null;}
 }

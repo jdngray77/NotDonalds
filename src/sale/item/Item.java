@@ -44,7 +44,7 @@ public class Item extends Sellable {
      * @see sale.price
      */
     @Override
-    public ShortPrice Price() {
+    public ShortPrice price() {
         return price;
     }
 }

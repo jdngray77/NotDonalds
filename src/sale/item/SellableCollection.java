@@ -22,13 +22,13 @@ public class SellableCollection<T> extends Sellable {
      * @apiNote It's assumed that a single meal will not exceed Short.MAX_VALUE
      */
     @Override
-    public ShortPrice Price() {
+    public ShortPrice price() {
         short decimal = 0;                                                                                              // Temporary storage for both sides of a decimalised price.
         short fractional = 0;
 
         for (Item item : items){                                                                                         // For all items in this meal,
-            decimal += item.Price().getDecimal();                                                                       // Add thier decimalised price to total values
-            fractional += item.Price().getFractional();
+            decimal += item.price().getDecimal();                                                                       // Add thier decimalised price to total values
+            fractional += item.price().getFractional();
         }
 
         ShortPrice total = new ShortPrice(decimal, fractional, GlobalConstants.DEFAULT_CURRENCY_SYMBOL);                         // Create a new price with the total values
