@@ -1,7 +1,7 @@
 package sale.price;
 
 import jdk.jshell.spi.ExecutionControl.NotImplementedException;
-import util.Finals;
+import util.GlobalConstants;
 
 /**
  * Unmanaged, Read only, Dual section, non currency-specific price storage.
@@ -32,7 +32,7 @@ abstract class Price<T> implements IPrice<T> {
     /**
      * Notation symbol for human friendly viewing.
      */
-    private char symbol = Finals.nullChar;
+    private char symbol = GlobalConstants.nullChar;
 
     /**
      * Right to left
@@ -48,7 +48,7 @@ abstract class Price<T> implements IPrice<T> {
      * @param _fractional Smaller, partial section of the price. (.XX)
      */
     public Price(T _decimal, T _fractional){
-        this(_decimal, _fractional, Finals.nullChar, false);
+        this(_decimal, _fractional, GlobalConstants.nullChar, false);
     }
 
     /**
@@ -159,7 +159,7 @@ abstract class Price<T> implements IPrice<T> {
      * @param d Double to split
      * @return
      */
-    public static Integer[] SplitDouble(Double d){
+    public static Integer[] splitDouble(Double d){
         int a, b;
         String dString = Double.toString(d);
         String aString = dString.substring(0, 1);

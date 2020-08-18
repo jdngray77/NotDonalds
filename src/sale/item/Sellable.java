@@ -1,7 +1,6 @@
 package sale.item;
 
 import sale.menu.MenuItem;
-import sale.price.IPrice;
 import sale.price.ShortPrice;
 
 /**

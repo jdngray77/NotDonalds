@@ -3,15 +3,12 @@ package network;
 import io.MenuHelper;
 import network.packet.Packet;
 import network.packet.PacketType;
-import sale.menu.Menu;
 import util.HaltCodes;
 import util.RuntimeHelper;
 
 import javax.swing.*;
 import java.io.*;
 import java.net.*;
-
-import io.MenuHelper;
 
 /**
  * Simple Single Line Server for receiving serialized objects.

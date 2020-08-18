@@ -1,6 +1,5 @@
 package sale.item;
 
-import sale.price.IPrice;
 import sale.price.ShortPrice;
 
 /**
@@ -34,7 +33,7 @@ public class Item extends Sellable {
     /**
      * @return name of the Item
      */
-    public String Name() {
+    public String name() {
         return name;
     }
 

@@ -3,7 +3,7 @@ package util;
 /**
  * Generic runtime final values
  */
-public class Finals {
+public class GlobalConstants {
 
     public static final char nullChar = '\0';
 

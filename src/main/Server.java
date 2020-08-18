@@ -25,7 +25,7 @@ public class Server {
     public static void main(String[] args) {
         new Thread(instance).start();                                                                                   // Start server in a new thread.
         try {
-            instance.loadMenu(MenuHelper.loadMenuFile("Menu.plist"));
+            MenuHelper.loadMenuFile("Menu.plist");
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "Could not read default menu file from disk!", "Could not start!", JOptionPane.ERROR_MESSAGE);
             RuntimeHelper.halt(HaltCodes.NONFATAL_MENU_READ_ERROR);

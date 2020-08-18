@@ -1,6 +1,5 @@
 package sale;
 
-import sale.item.Item;
 import sale.item.Sellable;
 import sale.item.SellableCollection;
 
@@ -12,5 +11,5 @@ import sale.item.SellableCollection;
  * @since 0.1.0
  * @version 1
  */
-public class order extends SellableCollection<Sellable> {
+public class Order extends SellableCollection<Sellable> {
 }

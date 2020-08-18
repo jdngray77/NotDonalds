@@ -9,7 +9,6 @@ import xmlwise.XmlParseException;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.management.MemoryUsage;
 import java.nio.file.Path;
 import java.util.HashMap;
 
@@ -57,7 +56,7 @@ public class MenuHelper {
      * @throws XmlParseException if the file was not valid xml
      */
     public static Menu loadMenuFile(File file) throws IOException, XmlParseException {
-        return ParseMenuTree((HashMap) Plist.loadObject(file));
+        return parseMenuTree((HashMap) Plist.loadObject(file));
     }
 
     /**
@@ -65,7 +64,7 @@ public class MenuHelper {
      * @param XMLMenuObject hashmap to parse
      * @return Compiled Menu Object
      */
-    private static Menu ParseMenuTree(HashMap XMLMenuObject) {
+    private static Menu parseMenuTree(HashMap XMLMenuObject) {
         Menu menu = new Menu("Default Menu");
         menu.contents.add( parseBranch("Menu Tree Root", XMLMenuObject));
         return menu;
@@ -89,7 +88,7 @@ public class MenuHelper {
                 category.contents.add(parseBranch((String) k, (HashMap) v));                                            // Parse child branch.
             } catch (ClassCastException e) {
                 try {
-                    Integer[] fractions = ShortPrice.SplitDouble((Double) v);                                           // Parse as leaf; create and add item.
+                    Integer[] fractions = ShortPrice.splitDouble((Double) v);                                           // Parse as leaf; create and add item.
                     ShortPrice price = new ShortPrice(fractions[0].shortValue(), fractions[1].shortValue());            // Split value into fractionals, and store in price
                     Item item = new Item((String) k, price);                                                            // Create item with key as it's name, and price.
                     System.out.println("[MENU LOAD] ADDED NEW ITEM " + (String) k + " @ " + price.asDisplay());

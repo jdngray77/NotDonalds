@@ -1,7 +1,6 @@
 package network.packet;
 
 import java.io.Serializable;
-import java.lang.reflect.Type;
 
 /**
  * Serializable network data object.

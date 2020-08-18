@@ -1,8 +1,7 @@
 package sale.item;
 
-import sale.price.IPrice;
 import sale.price.ShortPrice;
-import util.Finals;
+import util.GlobalConstants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,8 +31,8 @@ public class SellableCollection<T> extends Sellable {
             fractional += item.Price().getFractional();
         }
 
-        ShortPrice total = new ShortPrice(decimal, fractional, Finals.DEFAULT_CURRENCY_SYMBOL);                         // Create a new price with the total values
-        total.formatDecimal((short) Finals.DEFAULT_CURRENCY_DECIMAL_LENGTH);                                            // Format the price to match decimalisation length. (i.e £10.174 => £27.4)
+        ShortPrice total = new ShortPrice(decimal, fractional, GlobalConstants.DEFAULT_CURRENCY_SYMBOL);                         // Create a new price with the total values
+        total.formatDecimal((short) GlobalConstants.DEFAULT_CURRENCY_DECIMAL_LENGTH);                                            // Format the price to match decimalisation length. (i.e £10.174 => £27.4)
         return total;                                                                                                   // return requested total to caller.
     }
 }
