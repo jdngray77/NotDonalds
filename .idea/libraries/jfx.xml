@@ -1,5 +1,5 @@
 <component name="libraryTable">
-  <library name="lib">
+  <library name="jfx">
     <CLASSES>
       <root url="file:///Library/Java/JavaVirtualMachines/javafx-sdk-11.0.2/lib" />
     </CLASSES>

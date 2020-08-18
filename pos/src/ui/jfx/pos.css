@@ -1,0 +1,30 @@
+// css $ Variables don't work.
+// Hex or colour names only.
+
+.global-base{
+    -fx-background-color: linear-gradient(to right, #161118, #402530) center;
+    -fx-background-radius: 2px;
+    -fx-border-color: black;
+}
+
+.global-foreground{
+    -fx-background-color: #604550;
+    -fx-border-color: white;
+}
+
+.global-transparent{
+    -fx-background-color: rgba(0,0,0,0);
+}
+
+.menu-tile-container {
+    -fx-vgap: 10px;
+    -fx-hgap: 10px;
+    -fx-padding: 10px 10px 10px 10px;
+}
+
+// S
+.menu-tile {
+    -fx-cursor: hand;
+    -fx-border-radius: 20px;
+    -fx-background-radius: 20px;
+}

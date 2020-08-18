@@ -10,7 +10,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1124.0" prefWidth="1867.0" styleClass="global-base" stylesheets="@pos.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.pos">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1124.0" prefWidth="1867.0" styleClass="global-base" stylesheets="@pos.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.jfx.pos">
    <children>
       <SplitPane dividerPositions="0.1996779388083736" prefHeight="160.0" prefWidth="200.0" styleClass="global-transparent" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
@@ -59,7 +59,7 @@
                      <content>
                         <TilePane prefTileHeight="300.0" prefTileWidth="200.0" scaleShape="false">
                            <children>
-                              <AnchorPane onMouseClicked="#test" onMouseEntered="#test" prefHeight="200.0" prefWidth="200.0" stylesheets="@pos.css" TilePane.alignment="CENTER">
+                              <AnchorPane onMouseClicked="#test" prefHeight="200.0" prefWidth="200.0" stylesheets="@pos.css" TilePane.alignment="CENTER">
                                  <TilePane.margin>
                                     <Insets />
                                  </TilePane.margin>
@@ -68,7 +68,7 @@
                                        <children>
                                           <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
-                                                <Image url="@../../../website/assets/img/DartLogo.png" />
+                                                <Image url="@../../../../website/assets/img/DartLogo.png" />
                                              </image>
                                           </ImageView>
                                        </children>
@@ -92,13 +92,13 @@
                                     <String fx:value="global-foreground" />
                                  </styleClass>
                               </AnchorPane>
-                              <AnchorPane onMouseClicked="#test" prefHeight="200.0" prefWidth="200.0" stylesheets="@pos.css">
+                              <AnchorPane prefHeight="200.0" prefWidth="200.0" stylesheets="@pos.css">
                                  <children>
                                     <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                                        <children>
                                           <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
-                                                <Image url="@../../../website/assets/img/DartLogo.png" />
+                                                <Image url="@../../../../website/assets/img/DartLogo.png" />
                                              </image>
                                           </ImageView>
                                        </children>
