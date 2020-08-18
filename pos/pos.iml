@@ -4,9 +4,11 @@
     <exclude-output />
     <content url="file://$MODULE_DIR$/../pos">
       <sourceFolder url="file://$MODULE_DIR$/../pos/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../pos/rsc" type="java-resource" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="javafx" level="application" />
+    <orderEntry type="library" exported="" name="javafx" level="project" />
+    <orderEntry type="module" module-name="library" />
   </component>
 </module>

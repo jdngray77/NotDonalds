@@ -8,8 +8,5 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="KotlinJavaRuntime" level="project" />
-    <orderEntry type="library" name="javafx-swt" level="project" />
-    <orderEntry type="library" name="javafx" level="application" />
-    <orderEntry type="library" name="jfx" level="project" />
   </component>
 </module>
