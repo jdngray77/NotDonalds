@@ -3,13 +3,16 @@ package io;
 import sale.item.Item;
 import sale.menu.Menu;
 import sale.menu.MenuCategory;
+import sale.menu.MenuItem;
 import sale.price.ShortPrice;
+import util.GlobalConstants;
 import xmlwise.Plist;
 import xmlwise.XmlParseException;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -25,6 +28,15 @@ public class MenuHelper {
      * Static menu storage. Currently loaded menu for either client or server.
      */
     public static Menu menu;
+
+    public static final String DEFAULT_MENU_LOC = "Menu.plist";
+
+    /**
+     * Loads a menu from file, using the default menu location this.DEFAULT_MENU_LOC.
+     */
+    public static void loadDefaultMenu() throws IOException, XmlParseException {
+        loadMenuFile(DEFAULT_MENU_LOC);
+    }
 
     /**
      * Compiles a Menu object instance from a plist file on disk.
@@ -56,7 +68,8 @@ public class MenuHelper {
      * @throws XmlParseException if the file was not valid xml
      */
     public static Menu loadMenuFile(File file) throws IOException, XmlParseException {
-        return parseMenuTree((HashMap) Plist.loadObject(file));
+        menu = parseMenuTree((HashMap) Plist.loadObject(file));
+        return menu;
     }
 
     /**
@@ -89,7 +102,7 @@ public class MenuHelper {
             } catch (ClassCastException e) {
                 try {
                     Integer[] fractions = ShortPrice.splitDouble((Double) v);                                           // Parse as leaf; create and add item.
-                    ShortPrice price = new ShortPrice(fractions[0].shortValue(), fractions[1].shortValue());            // Split value into fractionals, and store in price
+                    ShortPrice price = new ShortPrice(fractions[0].shortValue(), fractions[1].shortValue(), GlobalConstants.DEFAULT_CURRENCY_SYMBOL, false);            // Split value into fractionals, and store in price
                     Item item = new Item((String) k, price);                                                            // Create item with key as it's name, and price.
                     System.out.println("[MENU LOAD] ADDED NEW ITEM " + (String) k + " @ " + price.asDisplay());
                     category.contents.add(item);                                                                        // Add item to this category
@@ -103,12 +116,27 @@ public class MenuHelper {
         return category;
     }
 
+    public static ArrayList<Item> allItems(MenuCategory category) {
+        ArrayList<Item> list = new ArrayList<>();
+        for (MenuItem item : category.contents) {
+            if (item.isCategory()){
+                list.addAll(allItems((MenuCategory) item));
+            } else {
+                list.add((Item) item);
+            }
+        }
+        return list;
+    }
 
     /**
      * Debug execution, parses menu plist.
      * @param args
      */
     public static void main(String[] args) throws IOException, XmlParseException {
-        loadMenuFile("Menu.plist");
+        loadDefaultMenu();
+        ArrayList<Item> items = allItems(menu);
+        assert items != null;
     }
+
+
 }

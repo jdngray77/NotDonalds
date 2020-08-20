@@ -33,6 +33,7 @@ public class Item extends Sellable {
     private ShortPrice price;
 
     public Item(String _name, ShortPrice _price) {
+        super(_name);
         name = _name;
         price = _price;
     }
@@ -53,5 +54,10 @@ public class Item extends Sellable {
     @Override
     public ShortPrice price() {
         return price;
+    }
+
+    @Override
+    public Item clone(){
+        return new Item(this.name, this.price);
     }
 }

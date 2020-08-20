@@ -12,7 +12,6 @@
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" styleClass="global-transparent">
                <children>
-                  <ListView prefHeight="699.0" prefWidth="427.0" styleClass="global-transparent" stylesheets="@../style/pos.css" AnchorPane.bottomAnchor="201.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                   <AnchorPane maxHeight="200.0" prefHeight="200.0" prefWidth="200.0" styleClass="global-transparent" stylesheets="@../style/pos.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                      <children>
                         <Label text="Total" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
@@ -47,6 +46,22 @@
                         </Label>
                      </children>
                   </AnchorPane>
+                  <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="890.0" prefWidth="368.0" styleClass="global-transparent" AnchorPane.bottomAnchor="201.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <content>
+                        <TilePane id="menuTilePane" fx:id="orderTileView" prefTileHeight="80.0" prefTileWidth="350.0" scaleShape="false">
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                           <styleClass>
+                              <String fx:value="global-base" />
+                              <String fx:value="menu-tile-container" />
+                           </styleClass>
+                           <children>
+
+                           </children>
+                        </TilePane>
+                     </content>
+                  </ScrollPane>
                </children>
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" styleClass="global-transparent">
@@ -77,7 +92,7 @@
           </Menu>
           <Menu mnemonicParsing="false" text="Debug">
             <items>
-              <MenuItem mnemonicParsing="false" onAction="#addItem" text="Add Test Menu Item" />
+              <MenuItem mnemonicParsing="false" onAction="#addMenuItem" text="Add Test Menu Item" />
             </items>
           </Menu>
         </menus>

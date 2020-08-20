@@ -1,35 +1,24 @@
 package controller;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
-import javafx.scene.layout.AnchorPane;
 import sale.item.Item;
-import sale.price.ShortPrice;
-import util.GlobalConstants;
 
 import java.io.IOException;
 
-public final class menuTile extends Parent {
+public final class menuTile extends FXMLController {
 
     /**
      * point of sale base fxml document location.
      */
-    private static final String MENU_TILE_FXML = "../fxml/menuItemTile.fxml";
-
-    /**
-     * constant item representative of a null item.
-     * TODO move to item.item
-     */
-    public static final Item NULL_ITEM = new Item("Super largely named menu item like christ does it ever end", new ShortPrice((short) 0, (short) 0, GlobalConstants.DEFAULT_CURRENCY_SYMBOL));
+    public static final String MENU_TILE_FXML = "../fxml/menuItemTile.fxml";
 
     /**
      * What menu item this tile represents
      */
-    private Item item = NULL_ITEM;
+    private Item item = Item.NULL_ITEM;
 
     //#region FXML references
     @FXML
@@ -37,11 +26,18 @@ public final class menuTile extends Parent {
 
     @FXML
     private Label lblName;
+
     //#endregion
 
     /**
-     * Sets the item this tile represents, and updates the UI elements accordingly.
-     * @param _item
+     * Creates a new FXML controller.
+     */
+    public menuTile() {
+        super(MENU_TILE_FXML);
+    }
+    /**
+     * Sets the item this tile represents, and the parent it belongs to; then updates the UI elements accordingly.
+     * @param _item item this tile represents
      */
     public void setItem(Item _item){
         item = _item;
@@ -49,35 +45,25 @@ public final class menuTile extends Parent {
         lblName.setText(item.name());
     }
 
-    /**
-     * Creates a new menuTile instance from FXML.
-     *
-     * - Creates loader
-     *      - parses FXML (this.MENU_TILE_FXML)
-     *      - creates an instance of controller.menuTile (No argument constructor)
-     *      - creates UI elements from parsed FXML,
-     *          - injecting elements with matching fx:id's into the controller.
-     *      - registers event handlers
-     *      - invokes initialise on the controller
-     *      - returns UI hierarchy of the tile.
-     * - Gets controller
-     * - Sets item of representation
-     *      - Updates UI elements accordingly
-     * - returns resulting instance.
-     *
-     * @param _item the item this tile represents
-     * @return A new instance of AnchorPane, following the FXML design for a menu tile that represents the provided item.
-     * @throws IOException
-     */
-    public static AnchorPane create(Item _item) throws IOException {                                                    // This used to be a single line.
-        FXMLLoader loader = new FXMLLoader(menuTile.class.getResource(MENU_TILE_FXML));                                 // I need to create an instance of this JUST to get the controller of the new pane. This should be statically available.
-        AnchorPane ap = (AnchorPane) loader.load();                                                                     // create menu tile pane from FXMl
-        menuTile controller = (menuTile) loader.getController();                                                        // Get controller to set the item the pane represents.
-        controller.setItem(_item);                                                                                      // Set and render the item.
-        return ap;                                                                                                      // Return newly created menu tile.
-    }
 
     public void select(){
-        new Alert(Alert.AlertType.CONFIRMATION, "It Works!", ButtonType.OK).showAndWait();
+        try {
+            ((pos)parentController)                                                                                     // Get the controller of the window (parent to this menu item tile) and cast it to a pos controller to get access to the jfx injected objects.
+                    .orderTileView.getChildren()                                                                        // Get the children from the jfx injected order tile view
+                    .add(                                                                                               // Add a new child;
+                            orderItem.create(parentController, item.clone())                                            // of a new order item with a loaded from FXML
+                                    .anchorPane);                                                                       // extract the Anchor pane to add as the child to be rendered.
+        } catch (IOException e) {
+            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, "Could not add item to order! (MENU ITEM FXML READ ERROR)", ButtonType.OK).showAndWait();
+        }
+
     }
+
+    public static FXMLController create(FXMLController controller, Item _item) throws IOException {
+        menuTile c = (menuTile) FXMLController.create(MENU_TILE_FXML, controller);
+        c.setItem(_item);
+        return c;
+    }
+
 }

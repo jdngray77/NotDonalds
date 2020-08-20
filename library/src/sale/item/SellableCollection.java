@@ -16,6 +16,10 @@ public class SellableCollection<T> extends Sellable {
 
     public List<Item> items = new ArrayList<Item>();
 
+    public SellableCollection(){
+        super("");
+    }
+
     /**
      * @inheritDoc
      * @return Cumulative price of all items within this collection

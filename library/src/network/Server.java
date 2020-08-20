@@ -5,6 +5,7 @@ import network.packet.Packet;
 import network.packet.PacketType;
 import util.HaltCodes;
 import util.RuntimeHelper;
+import xmlwise.XmlParseException;
 
 import javax.swing.*;
 import java.io.*;
@@ -82,7 +83,7 @@ public class Server implements Runnable {
     /**
      * Creates and starts a new server
      */
-    public Server() {
+    public Server() throws IOException, XmlParseException {
         setAddress();
         try {
             listener = new ServerSocket(PORT, 0, address);
@@ -90,6 +91,7 @@ public class Server implements Runnable {
             JOptionPane.showMessageDialog(null, e.getMessage(),"Failed to Bind", JOptionPane.ERROR_MESSAGE); // Failed to bind to address
             RuntimeHelper.halt(HaltCodes.FATAL_SERVER_BIND_FAILED);
         }
+        MenuHelper.loadDefaultMenu();
     }
 
     /**
@@ -167,7 +169,7 @@ public class Server implements Runnable {
      * @param args command line arguments
      * @throws IOException if an io error occurs whilst initialising the server.
      */
-    public static void main (String[] args) throws IOException {
+    public static void main (String[] args) throws IOException, XmlParseException {
         RuntimeHelper.log("[Server]", "Server running as a standalone debug session.");
         new Thread(new Server()).start();                                                                               // Start a new server thread.
     }

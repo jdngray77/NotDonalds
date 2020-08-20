@@ -11,6 +11,10 @@ import sale.price.ShortPrice;
  */
 public abstract class Sellable extends MenuItem {
 
+    public Sellable(String _name) {
+        super(_name);
+    }
+
     /**
      * @return Price instance of the Item
      * @apiNote Via abstraction, the instance returned may be Long, Short or Small (Byte) formatted prices.
