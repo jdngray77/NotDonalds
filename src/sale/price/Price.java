@@ -140,7 +140,23 @@ abstract class Price<T> implements IPrice<T> {
      */
     @Override
     public String asDisplay(){
-        return rtl? String.valueOf(symbol + asDouble()) : String.valueOf(asDouble() + symbol);
+        /*
+            I don't like this.
+
+            I need the double as a string.
+
+            Double's cannot be directly cast to a string.
+
+            this.asDouble() returns the data type double, not a class of Double, meaning asDouble cannot be operated on,
+            thus .toString() is not directly possible.
+
+            So the options are:
+                String.valueOf(asDouble())
+                OR
+                redundantly cast double (data) to Double (class instance), to operate on.
+                ((Double) asDouble()).toString()
+         */
+        return rtl? symbol + String.valueOf(asDouble()) : String.valueOf(asDouble()) + symbol;
     }
 
     /**
