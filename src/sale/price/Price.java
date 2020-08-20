@@ -156,7 +156,7 @@ abstract class Price<T> implements IPrice<T> {
                 redundantly cast double (data) to Double (class instance), to operate on.
                 ((Double) asDouble()).toString()
          */
-        return rtl? symbol + String.valueOf(asDouble()) : String.valueOf(asDouble()) + symbol;
+        return rtl? String.valueOf(asDouble()) + symbol : symbol + String.valueOf(asDouble());
     }
 
     /**
