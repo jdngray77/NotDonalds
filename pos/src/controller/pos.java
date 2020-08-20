@@ -5,6 +5,8 @@ import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.layout.TilePane;
+import util.HaltCodes;
+import util.RuntimeHelper;
 
 import java.io.IOException;
 
@@ -18,6 +20,13 @@ public final class pos extends Parent {
     }
 
     public void addItem() throws IOException {
-        menuTilePanel.getChildren().add(menuTile.create());
+        menuTilePanel.getChildren().add(menuTile.create(menuTile.NULL_ITEM));
+    }
+
+    /**
+     * User Close Request
+     */
+    public void close(){
+        RuntimeHelper.halt(HaltCodes.INTENDED_HALT);
     }
 }
