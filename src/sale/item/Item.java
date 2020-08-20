@@ -19,6 +19,13 @@ public class Item extends Sellable {
     private String name;
 
     /**
+     * Global constant. Representation of a null or invalid item.
+     *
+     * Displays as "INVALID", with a price of '0.0!'
+     */
+    public static final Item NULL_ITEM = new Item("INVALID", new ShortPrice((short) 0, (short) 0, '!', true));
+
+    /**
      * Price of the Item
      *
      * @apiNote Via abstraction, Short, Small or Long prices are compatable here.
