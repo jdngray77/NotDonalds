@@ -24,6 +24,21 @@ public class Packet implements Serializable {
     private PacketType _type;
 
     /**
+     * Serialized data contained within the packet.
+     */
+    private Serializable PacketData;
+
+    /**
+     * Get data serialized within this packet.
+     * @return Null if no data, Othersize serialized object.
+     *
+     * @apiNote Cast type should be infered from message type, e.g if client requests a Menu, the returned serialized data will be a Menu object.
+     */
+    public Serializable getPacketData() {
+        return PacketData;
+    }
+
+    /**
      * returns the type of this packet's message
      */
     public PacketType type() {return _type;}
@@ -43,38 +58,28 @@ public class Packet implements Serializable {
      * @param _metaMessage Human friendly message about this packet.
      */
     public Packet(PacketType type, String _metaMessage){
+        this(type, null, _metaMessage);
+    }
+
+    /**
+     * Creates a new packet
+     * @param type - Message type contained within this packet
+     * @param data - Serialized object sent within this packet.
+     */
+    public Packet(PacketType type, Serializable data){
+        this(type, data, "");
+    }
+
+    /**
+     * Creates a new packet
+     * @param type - Message type contained within this packet
+     * @param data - Serialized object sent within this packet.
+     * @param _metaMessage Human friendly message about this packet.
+     */
+    public Packet(PacketType type, Serializable data ,String _metaMessage){
         _type = type;
         metaMessage = _metaMessage;
+        PacketData = data;
     }
 
-
-
-    //#region static utils
-    /**
-     * Processes a packet recieved server side. Performs any required subroutine associated with requests, then returns a response.
-     *
-     * Packets processed server side must return a response.
-     * @param packet Packet to process
-     * @return Response packet
-     */
-    public static Packet processServerResponse(Packet packet) {
-        if (packet == null) return new Packet(PacketType.REJECT);
-
-        switch (packet._type) {
-            default:
-                return new Packet(PacketType.REJECT, "Message type not recognised.");
-
-            case REJECT:                                                                                                // Client cannot request the server with a response response. ACK and REJ are rejected as not being requests.
-            case ACKNOWLEDGE:
-                return new Packet(PacketType.REJECT, "Packet recieved was not a request.");
-
-            case PING:
-                return new Packet(PacketType.ACKNOWLEDGE, "Pong!");                                         // PING is acknowledged
-
-            case REFUND:
-            case ORDER:                                                                                                 // Recieved an order, handle. Return REJ or ACK depending on if the order is accepted.
-                return new Packet(PacketType.REJECT, "Server not yet equipt to handle this request.");     // Temporary, not implemented.
-        }
-    }
-    //#endregion
 }

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane onMouseClicked="#select" prefHeight="200.0" prefWidth="200.0" stylesheets="@../style/pos.css" TilePane.alignment="CENTER" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.menuTile">
+
+            <TilePane.margin>
+                <Insets />
+            </TilePane.margin>
+
+            <children>
+                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                    <children>
+                        <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@/img/DartLogo.png" />
+                            </image>
+                        </ImageView>
+                    </children>
+                </HBox>
+                <Label fx:id="lblPrice" layoutX="58.0" layoutY="232.0" text="£00.00" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                    <font>
+                        <Font name="Helvetica Light" size="41.0" />
+                    </font>
+                </Label>
+                <Label fx:id="lblName" alignment="CENTER" contentDisplay="CENTER" layoutX="6.0" layoutY="199.0" prefHeight="50.0" prefWidth="204.0" text="SBUBBY" textAlignment="CENTER" textFill="WHITE" wrapText="true" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                    <font>
+                        <Font name="Helvetica Light" size="34.0" />
+                    </font>
+                </Label>
+      <Pane prefHeight="200.0" prefWidth="200.0" />
+            </children>
+
+            <opaqueInsets>
+                <Insets />
+            </opaqueInsets>
+
+            <styleClass>
+                <String fx:value="menu-tile" />
+                <String fx:value="global-foreground" />
+            </styleClass>
+</AnchorPane>
