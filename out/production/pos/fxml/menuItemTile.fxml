@@ -16,10 +16,13 @@
             <children>
                 <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                     <children>
-                        <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="itemImage" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@/img/DartLogo.png" />
+                                <Image url="@/img/default.png" />
                             </image>
+               <HBox.margin>
+                  <Insets top="10.0" />
+               </HBox.margin>
                         </ImageView>
                     </children>
                 </HBox>
@@ -27,6 +30,9 @@
                     <font>
                         <Font name="Helvetica Light" size="41.0" />
                     </font>
+         <padding>
+            <Insets right="10.0" />
+         </padding>
                 </Label>
                 <Label fx:id="lblName" alignment="CENTER" contentDisplay="CENTER" layoutX="6.0" layoutY="199.0" prefHeight="50.0" prefWidth="204.0" text="INVALID" textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                     <font>
