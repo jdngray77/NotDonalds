@@ -1,5 +1,6 @@
 package io;
 
+import javafx.scene.image.Image;
 import sale.item.Item;
 import sale.menu.Menu;
 import sale.menu.MenuCategory;
@@ -30,6 +31,8 @@ public class MenuHelper {
     public static Menu menu;
 
     public static final String DEFAULT_MENU_LOC = "Menu.plist";
+
+    public static final Image DEFAULT_ITEM_IMG = new Image(MenuHelper.class.getResource("/img/default.png").toString());
 
     /**
      * Loads a menu from file, using the default menu location this.DEFAULT_MENU_LOC.
