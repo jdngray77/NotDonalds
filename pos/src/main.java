@@ -47,6 +47,7 @@ public class main extends Application {
                                                                                                                         // PREPARE THE STAGE TO SHOW SCENE
         primaryStage.setTitle(RuntimeHelper.SYSTEM_NAME);                                                               // Set the stage title
         primaryStage.setScene(scene);                                                                                   // place loaded FXML scene on stage
+        primaryStage.setFullScreen(true);                                                                               // Fullscreen stage
         primaryStage.show();                                                                                            // Show the stage as a window.
         controller.renderMenu();
     }

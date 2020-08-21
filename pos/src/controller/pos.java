@@ -68,6 +68,17 @@ public final class pos extends FXMLController {
             addMenuItem(item);                                                                                          // add it to the menu tile pane
     }
 
+    public void reRenderOrder() {
+        orderTileView.getChildren().clear();
+        for (Item item : activeOrder.items) {
+            try {
+                orderTileView.getChildren().add(orderItem.create(this, item).anchorPane);
+            } catch (IOException e) {
+                RuntimeHelper.log(this, "[WARN] Failed to render order item " + item + " (" + e.getMessage() + ")");
+            }
+        };
+    }
+
     /**
      * User Close Request
      *

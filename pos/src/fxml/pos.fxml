@@ -85,14 +85,16 @@
       </SplitPane>
       <MenuBar prefHeight="29.0" prefWidth="1865.0" styleClass="global-base" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <menus>
-          <Menu mnemonicParsing="false" text="File">
+          <Menu mnemonicParsing="false" text="Option">
             <items>
               <MenuItem mnemonicParsing="false" onAction="#close" text="Close" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Debug">
             <items>
-              <MenuItem mnemonicParsing="false" onAction="#addMenuItem" text="Add Test Menu Item" />
+              <MenuItem mnemonicParsing="false" onAction="#addMenuItem" text="Add Null Menu Item" />
+                  <MenuItem mnemonicParsing="false" onAction="#renderMenu" text="Re-Render Menu" />
+                  <MenuItem mnemonicParsing="false" onAction="#reRenderOrder" text="Re-Render Order" />
             </items>
           </Menu>
         </menus>
