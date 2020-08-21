@@ -3,8 +3,6 @@ import io.MenuHelper;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 import network.Client;
 import network.packet.Packet;
@@ -31,7 +29,9 @@ public class main extends Application {
      */
     @Override
     public void start(Stage primaryStage) throws IOException {
+        RuntimeHelper.log(this, "[PRELOAD] Validating startup configuration..");
         if (!assertConnection() || !loadMenu()) return;                                                                 // Before loading UI, check that a server is available then fetch the menu from it.
+        RuntimeHelper.log(this, "[PRELOAD] Able to start, commence!");
 
                                                                                                                         // PREPARE THE LOADER
         FXMLLoader loader = new FXMLLoader(getClass().getResource(pos.POS_FXML));                                       // Create a loader to load the form from FXML file
@@ -61,12 +61,17 @@ public class main extends Application {
      * must match for serialization to be valid.
      */
     private boolean assertConnection() {
+        RuntimeHelper.log(this, "[CONFIG] Validating server connection..");
        try{
            if (Client.sendToServer(new Packet(PacketType.PING)).type() != PacketType.ACKNOWLEDGE) throw new IOException("Did not receive a valid ping response.");
-           else return true;
+           else {
+               RuntimeHelper.log(this, "[CONFIG] Valid!");
+               return true;
+           }
        } catch (Exception e) {
+           RuntimeHelper.log(this, "[CONFIG] Connection not valid!");
            e.printStackTrace();
-           alertStartFailiure("Failed to connect to the server, " + e.getMessage());
+           alertStartFailure("[CONFIG] Failed to connect to the server, " + e.getMessage());
            return false;
        }
     }
@@ -75,18 +80,21 @@ public class main extends Application {
      * Gets the menu from the server
      */
     private boolean loadMenu(){
+        RuntimeHelper.log(this, "[CONFIG] Grabbing menu from server..");
         try {
             MenuHelper.menu = (Menu) Client.sendToServer(new Packet(PacketType.MENU_REQUEST)).getPacketData();
+            RuntimeHelper.log(this, "[CONFIG] Got it!");
             return true;
         } catch (IOException e) {
+            RuntimeHelper.log(this, "[CONFIG] Failed to get menu from server!");
             e.printStackTrace();
-            alertStartFailiure("Failed to load menu from server, " + e.getMessage());
+            alertStartFailure("[CONFIG] Failed to load menu from server, " + e.getMessage());
             return false;
         }
     }
 
-    private void alertStartFailiure(String message){
-        new Alert(Alert.AlertType.ERROR, "Cannot start (" + message + ")", ButtonType.OK).showAndWait();
+    private void alertStartFailure(String message){
+        RuntimeHelper.alertFailiure("[CONFIG] Cannot start (" + message + ")");
     }
 
     /**

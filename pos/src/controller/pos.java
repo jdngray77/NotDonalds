@@ -2,9 +2,8 @@ package controller;
 
 import io.MenuHelper;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import javafx.scene.layout.TilePane;
+import sale.Order;
 import sale.item.Item;
 import util.HaltCodes;
 import util.RuntimeHelper;
@@ -19,6 +18,8 @@ public final class pos extends FXMLController {
     @FXML
     public TilePane orderTileView;
 
+    private Order activeOrder = new Order();
+
     /**
      * point of sale base fxml document location.
      */
@@ -27,13 +28,7 @@ public final class pos extends FXMLController {
     /**
      * Creates a new FXML controller.
      */
-    public pos() {
-        super(POS_FXML);
-    }
-
-    public void test() {
-        new Alert(Alert.AlertType.CONFIRMATION, "It Works!", ButtonType.OK).showAndWait();
-    }
+    public pos() { super(POS_FXML); }
 
     /**
      * Adds a null menu item to the pos.
@@ -41,6 +36,20 @@ public final class pos extends FXMLController {
      */
     public void addMenuItem() throws IOException {
         addMenuItem(Item.NULL_ITEM);
+    }
+
+    /**
+     * Adds a new item to the current order.
+     * @param item
+     */
+    public void addOrderItem(Item item){
+        try {
+            orderTileView.getChildren().add(orderItem.create(this, item).anchorPane);
+        } catch (IOException e) {
+            e.printStackTrace();
+            RuntimeHelper.alertFailiure("Failed to add item to order (" + e.getMessage() + ")");
+        }
+        activeOrder.items.add(item);
     }
 
     /**
@@ -54,12 +63,15 @@ public final class pos extends FXMLController {
     }
 
     public void renderMenu() throws IOException {
-        for (Item item : MenuHelper.allItems(MenuHelper.menu))
-            addMenuItem(item);
+        menuTilePanel.getChildren().clear();                                                                            // Remove all items displayed
+        for (Item item : MenuHelper.allItems(MenuHelper.menu))                                                          // for each menu item,
+            addMenuItem(item);                                                                                          // add it to the menu tile pane
     }
 
     /**
      * User Close Request
+     *
+     * Halts the runtime as an intended request.
      */
     public void close(){
         RuntimeHelper.halt(HaltCodes.INTENDED_HALT);

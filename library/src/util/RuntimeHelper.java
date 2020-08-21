@@ -1,5 +1,8 @@
 package util;
 
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -84,6 +87,14 @@ public class RuntimeHelper {
     public static void halt(HaltCodes code){
         log("[HALT] HALTING WITH CAUSE " + code.toString());
         Runtime.getRuntime().halt(code.ordinal());
+    }
+
+    /**
+     * Displays a JFX error window with 's'
+     * @param s the message to display.
+     */
+    public static void alertFailiure(String s) {
+        new Alert(Alert.AlertType.ERROR, s, ButtonType.OK).showAndWait();
     }
     //#endregion
 

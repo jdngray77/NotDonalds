@@ -2,8 +2,6 @@ package controller;
 
 import io.MenuHelper;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -53,17 +51,12 @@ public final class menuTile extends FXMLController {
         setImage();
     }
 
+    /**
+     * Menu tile has been tapped on the POS window. Adds the item to the active order.
+     */
     public void select(){
-        try {
             ((pos)parentController)                                                                                     // Get the controller of the window (parent to this menu item tile) and cast it to a pos controller to get access to the jfx injected objects.
-                    .orderTileView.getChildren()                                                                        // Get the children from the jfx injected order tile view
-                    .add(                                                                                               // Add a new child;
-                            orderItem.create(parentController, item.clone())                                            // of a new order item with a loaded from FXML
-                                    .anchorPane);                                                                       // extract the Anchor pane to add as the child to be rendered.
-        } catch (IOException e) {
-            e.printStackTrace();
-            new Alert(Alert.AlertType.ERROR, "Could not add item to order! (MENU ITEM FXML READ ERROR)", ButtonType.OK).showAndWait();
-        }
+                    .addOrderItem(item);                                                                                // Add the item to the active order.
     }
 
     private void setImage() {
@@ -71,7 +64,7 @@ public final class menuTile extends FXMLController {
         try {
             image = new Image(MenuHelper.class.getResource("/img/" + item.name() + ".png").toString());
         } catch (Exception e){
-            RuntimeHelper.log("[WARN] " + item.name() + " has no matching image!");
+            RuntimeHelper.log(this, "[WARN] " + item.name() + " has no matching image!");
         }
         finally {
             itemImage.setImage(image);
