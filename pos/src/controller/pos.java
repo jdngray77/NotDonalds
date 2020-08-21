@@ -1,6 +1,7 @@
 package controller;
 
 import io.MenuHelper;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.layout.TilePane;
 import sale.Order;
@@ -25,10 +26,35 @@ public final class pos extends FXMLController {
      */
     public static final String POS_FXML = "./fxml/pos.fxml";
 
+    public orderItem lastItem = (orderItem) orderItem.create(this, Item.NULL_ITEM);
+
     /**
      * Creates a new FXML controller.
      */
-    public pos() { super(POS_FXML); }
+    public pos() throws IOException { super(POS_FXML); }
+
+
+
+    /**
+     * Adds a new item to the current order.
+     * @param item
+     */
+    public void addOrderItem(Item item) {
+        if (item.name() == lastItem.getItem().name()){
+            lastItem.getItem().addQuantity();
+            lastItem.render();
+            return;
+        }
+
+        try {
+            lastItem = orderItem.create(this, item.clone());
+            orderTileView.getChildren().add(lastItem.anchorPane);
+        } catch (IOException e) {
+            e.printStackTrace();
+            RuntimeHelper.alertFailiure("Failed to add item to order (" + e.getMessage() + ")");
+        }
+        activeOrder.items.add(lastItem.getItem());
+    }
 
     /**
      * Adds a null menu item to the pos.
@@ -36,20 +62,6 @@ public final class pos extends FXMLController {
      */
     public void addMenuItem() throws IOException {
         addMenuItem(Item.NULL_ITEM);
-    }
-
-    /**
-     * Adds a new item to the current order.
-     * @param item
-     */
-    public void addOrderItem(Item item){
-        try {
-            orderTileView.getChildren().add(orderItem.create(this, item).anchorPane);
-        } catch (IOException e) {
-            e.printStackTrace();
-            RuntimeHelper.alertFailiure("Failed to add item to order (" + e.getMessage() + ")");
-        }
-        activeOrder.items.add(item);
     }
 
     /**
@@ -86,5 +98,13 @@ public final class pos extends FXMLController {
      */
     public void close(){
         RuntimeHelper.halt(HaltCodes.INTENDED_HALT);
+    }
+
+    public void launchPacketTool(ActionEvent actionEvent) {
+
+    }
+
+    public void ping(ActionEvent actionEvent) {
+
     }
 }

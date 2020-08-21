@@ -5,13 +5,17 @@
     -fx-text-fill: rgb(255,255,255)
 }
 
+.text {
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 10, 0.5, 0.0, 0.0);
+}
+
 .global-foreground, label{
-    -fx-background-color: #604550;
-    -fx-border-color: white;
+    -fx-background-color: rgba(100,100,100,0.5);
 }
 
 .global-base, global-foreground{
-    -fx-background-color: linear-gradient(to right, #161118, #402530) center;
+    -fx-background-color: linear-gradient(to right, rgba(10,10,10,100), rgba(100,100,100,100)) center;
+
     -fx-background-radius: 2px;
     -fx-border-color: rgba(0,0,0,0);
 }
@@ -21,12 +25,13 @@
     -fx-background-color: rgba(0,0,0,0);
 }
 
-
 // Food Menu
 .menu-tile-container {
     -fx-vgap: 10px;
     -fx-hgap: 10px;
     -fx-padding: 10px 10px 10px 10px;
+    -fx-background-image: url('./menubg.jpg');
+    -fx-background-size: 100%;
 }
 
 .menu-tile {

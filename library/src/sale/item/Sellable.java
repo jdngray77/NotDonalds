@@ -21,4 +21,6 @@ public abstract class Sellable extends MenuItem {
      * @see sale.price
      */
     public ShortPrice price(){return null;}
+
+
 }

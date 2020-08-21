@@ -21,13 +21,13 @@ abstract class Price<T> implements IPrice<T> {
      *  Fractional, partial, section of the currency notation.
      *  i.e Fractional 11 = £0.11
      */
-    private T fractional;
+    protected T fractional;
 
     /**
      * Decimal, larger section of the currency notation.
      * i.e Decimal 11 = £11.00
      */
-    private T decimal;
+    protected T decimal;
 
     /**
      * Notation symbol for human friendly viewing.

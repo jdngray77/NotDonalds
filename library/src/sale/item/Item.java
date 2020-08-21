@@ -1,6 +1,7 @@
 package sale.item;
 
 import sale.price.ShortPrice;
+import util.RuntimeHelper;
 
 /**
  * Single Menu Item.
@@ -17,6 +18,13 @@ public class Item extends Sellable {
      * Name of the Item
      */
     private String name;
+
+    /**
+     * Quantity of this item.
+     *
+     * Used in ordering, i.e buy 5 of an item.
+     */
+    private byte quantity = 1;
 
     /**
      * Global constant. Representation of a null or invalid item.
@@ -53,11 +61,27 @@ public class Item extends Sellable {
      */
     @Override
     public ShortPrice price() {
-        return price;
+        return price.times(quantity);
     }
 
     @Override
     public Item clone(){
         return new Item(this.name, this.price);
+    }
+
+    public void addQuantity(){
+        addQuantity(1);
+    }
+
+    public void addQuantity(int i) {
+        if (quantity + i > 255 || quantity + i < 0) {
+            RuntimeHelper.alertFailiure("Item quantity must be between 0 - 255");
+        } else {
+            quantity += i;
+        }
+    }
+
+    public byte getQuantity() {
+        return quantity;
     }
 }

@@ -47,4 +47,18 @@ public final class ShortPrice extends Price<Short> {
     public void formatDecimal(Short len){
         overridePrice((short) (getDecimal() + Math.floorDiv(getFractional(), len)), (short) (getFractional() % len), getSymbol(), getRTL());
     }
+
+    public void overridePrice(Short _decimal, Short _fractional){
+        fractional = _fractional;
+        decimal = _decimal;
+    }
+
+    public ShortPrice times(byte i){
+        ShortPrice total = new ShortPrice((short) 0, (short) 0);
+        for (int j = 0; j <= i; j++) {
+            total.overridePrice((short) (total.getDecimal() + getDecimal()), (short) (total.getFractional() + getFractional()));
+            total.formatDecimal((short) 10);
+        }
+        return total;
+    }
 }

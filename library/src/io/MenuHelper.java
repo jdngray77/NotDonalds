@@ -32,7 +32,15 @@ public class MenuHelper {
 
     public static final String DEFAULT_MENU_LOC = "Menu.plist";
 
-    public static final Image DEFAULT_ITEM_IMG = new Image(MenuHelper.class.getResource("/img/default.png").toString());
+    public static final Image DEFAULT_ITEM_IMG = initDefaultImage();
+
+    private static Image initDefaultImage(){
+        try {
+            return new Image(MenuHelper.class.getResource("/img/default.png").toString());
+        } catch (Exception e) {
+            return null;
+        }
+    }
 
     /**
      * Loads a menu from file, using the default menu location this.DEFAULT_MENU_LOC.

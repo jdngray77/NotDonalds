@@ -8,9 +8,9 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1124.0" prefWidth="1867.0" styleClass="global-base" stylesheets="@../style/pos.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.pos">
    <children>
-      <SplitPane dividerPositions="0.1996779388083736" layoutX="3.0" layoutY="-1.0" prefHeight="1124.0" prefWidth="1863.0" styleClass="global-transparent" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="29.0">
+      <SplitPane dividerPositions="0.2" layoutX="3.0" layoutY="-1.0" prefHeight="1124.0" prefWidth="1863.0" styleClass="global-transparent" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="29.0">
         <items>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" styleClass="global-transparent">
+          <AnchorPane minHeight="0.0" minWidth="100.0" prefHeight="160.0" prefWidth="100.0" styleClass="global-transparent">
                <children>
                   <AnchorPane maxHeight="200.0" prefHeight="200.0" prefWidth="200.0" styleClass="global-transparent" stylesheets="@../style/pos.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                      <children>
@@ -48,14 +48,10 @@
                   </AnchorPane>
                   <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="890.0" prefWidth="368.0" styleClass="global-transparent" AnchorPane.bottomAnchor="201.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <content>
-                        <TilePane id="menuTilePane" fx:id="orderTileView" prefTileHeight="80.0" prefTileWidth="350.0" scaleShape="false">
+                        <TilePane id="menuTilePane" fx:id="orderTileView" alignment="TOP_CENTER" prefColumns="1" prefRows="10000" prefTileHeight="80.0" prefTileWidth="350.0" scaleShape="false" styleClass="global-base">
                            <opaqueInsets>
                               <Insets />
                            </opaqueInsets>
-                           <styleClass>
-                              <String fx:value="global-base" />
-                              <String fx:value="menu-tile-container" />
-                           </styleClass>
                            <children>
 
                            </children>
@@ -93,8 +89,18 @@
           <Menu mnemonicParsing="false" text="Debug">
             <items>
               <MenuItem mnemonicParsing="false" onAction="#addMenuItem" text="Add Null Menu Item" />
-                  <MenuItem mnemonicParsing="false" onAction="#renderMenu" text="Re-Render Menu" />
-                  <MenuItem mnemonicParsing="false" onAction="#reRenderOrder" text="Re-Render Order" />
+                  <Menu mnemonicParsing="false" text="Rendering">
+                     <items>
+                        <MenuItem mnemonicParsing="false" onAction="#renderMenu" text="Re-Render Menu" />
+                        <MenuItem mnemonicParsing="false" onAction="#reRenderOrder" text="Re-Render Order" />
+                     </items>
+                  </Menu>
+                  <Menu mnemonicParsing="false" text="Server">
+                     <items>
+                        <MenuItem mnemonicParsing="false" onAction="#launchPacketTool" text="Launch packet tool" />
+                        <MenuItem mnemonicParsing="false" onAction="#ping" text="Ping" />
+                     </items>
+                  </Menu>
             </items>
           </Menu>
         </menus>
