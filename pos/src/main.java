@@ -31,7 +31,7 @@ public class main extends Application {
      */
     @Override
     public void start(Stage primaryStage) throws IOException {
-        if (!assertConnection() || !loadMenu()) return;                                                                 // Before loading, check that a server is available.
+        if (!assertConnection() || !loadMenu()) return;                                                                 // Before loading UI, check that a server is available then fetch the menu from it.
 
                                                                                                                         // PREPARE THE LOADER
         FXMLLoader loader = new FXMLLoader(getClass().getResource(pos.POS_FXML));                                       // Create a loader to load the form from FXML file

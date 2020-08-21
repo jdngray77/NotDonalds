@@ -28,9 +28,9 @@
                         <Font name="Helvetica Light" size="41.0" />
                     </font>
                 </Label>
-                <Label fx:id="lblName" alignment="CENTER" contentDisplay="CENTER" layoutX="6.0" layoutY="199.0" prefHeight="50.0" prefWidth="204.0" text="SBUBBY" textAlignment="CENTER" textFill="WHITE" wrapText="true" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                <Label fx:id="lblName" alignment="CENTER" contentDisplay="CENTER" layoutX="6.0" layoutY="199.0" prefHeight="50.0" prefWidth="204.0" text="INVALID" textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                     <font>
-                        <Font name="Helvetica Light" size="34.0" />
+                        <Font name="Helvetica Light" size="30.0" />
                     </font>
                 </Label>
       <Pane prefHeight="200.0" prefWidth="200.0" />
