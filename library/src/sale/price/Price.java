@@ -18,6 +18,11 @@ import util.GlobalConstants;
 abstract class Price<T> implements IPrice<T> {
 
     /**
+     * Default decimal length.
+     */
+    public static final byte DEFAULT_LENGTH = 100;
+
+    /**
      *  Fractional, partial, section of the currency notation.
      *  i.e Fractional 11 = £0.11
      */
@@ -41,14 +46,25 @@ abstract class Price<T> implements IPrice<T> {
      */
     private boolean rtl;
 
+    /**
+     * Decimalesque length of the fractional side of the price.
+     *
+     * This length must be reached by the fractional before incrementing the decimal side.
+     *
+     * @example length 100
+     *          £10.99 + 1p = £11.00
+     */
+    protected T length;
+
 
     /**
      * Create a price
      * @param _decimal Larger, whole section of the price. (XX.)
      * @param _fractional Smaller, partial section of the price. (.XX)
+     * @param _length Length of fractional before decimal is incremented (length 100: £10.99 + 1p = £11.00)
      */
-    public Price(T _decimal, T _fractional){
-        this(_decimal, _fractional, GlobalConstants.nullChar, false);
+    public Price(T _decimal, T _fractional, T _length){
+        this(_decimal, _fractional, _length, GlobalConstants.nullChar);
     }
 
     /**
@@ -56,9 +72,10 @@ abstract class Price<T> implements IPrice<T> {
      * @param _decimal Larger, whole section of the price. (XX.)
      * @param _fractional Smaller, partial section of the price. (.XX)
      * @param _symbol Currency notation symbol (i.e $/£/¥/€)
+     * @param _length Length of fractional before decimal is incremented (length 100: £10.99 + 1p = £11.00)
      */
-    public Price(T _decimal, T _fractional, char _symbol){
-        this(_decimal, _fractional, _symbol, false);
+    public Price(T _decimal, T _fractional, T _length, char _symbol){
+        this(_decimal, _fractional, _length, _symbol, false);
     }
 
     /**
@@ -67,20 +84,22 @@ abstract class Price<T> implements IPrice<T> {
      * @param _fractional Smaller, partial section of the price. (.XX)
      * @param _symbol Currency notation symbol (i.e $/£/¥/€)
      * @param _rtl Determines if the notation symbol appears on the left or right. Right if true.
+     * @param _length Length of fractional before decimal is incremented (length 100: £10.99 + 1p = £11.00)
      */
-    public Price(T _decimal, T _fractional, char _symbol, boolean _rtl){
-        this.overridePrice(_decimal, _fractional, _symbol, _rtl);
+    public Price(T _decimal, T _fractional, T _length, char _symbol, boolean _rtl){
+        this.overridePrice(_decimal, _fractional, _length, _symbol, _rtl);
     }
 
     /**
      * @inheritDoc
      */
     @Override
-    public void overridePrice(T _decimal, T _fractional, char _symbol, boolean _rtl){
+    public void overridePrice(T _decimal, T _fractional,T _length, char _symbol, boolean _rtl){
         fractional = _fractional;
         decimal = _decimal;
         symbol = _symbol;
         rtl = _rtl;
+        length = _length;
     }
 
     /**
@@ -128,9 +147,9 @@ abstract class Price<T> implements IPrice<T> {
     @Override
     public double asDouble() {
         return rtl?
-                Double.parseDouble( decimal.toString() + "." + fractional.toString())
+                Double.parseDouble( fractional.toString() + "." +  decimal.toString())
                 :
-                Double.parseDouble( fractional.toString() + "." +  decimal.toString());
+                Double.parseDouble( decimal.toString() + "." + fractional.toString());
     }
 
     /**
@@ -156,14 +175,43 @@ abstract class Price<T> implements IPrice<T> {
                 redundantly cast double (data) to Double (class instance), to operate on.
                 ((Double) asDouble()).toString()
          */
-        return rtl? String.valueOf(asDouble()) + symbol : symbol + String.valueOf(asDouble());
+        return fillDisplayFractional(
+                rtl?
+                        String.valueOf(asDouble()) + symbol
+                        :
+                        symbol + String.valueOf(asDouble())
+        );
+    }
+
+    /**
+     * Suffixes fractional display strings with 0,
+     * as to display
+     *
+     * ```
+     * £10.50
+     * ```
+     * instead of
+     * ```
+     * £10.5
+     * ```
+     * @param s FRACTIONAL price to append a '0' to.
+     * @return
+     */
+    private String fillDisplayFractional(String s){
+        return s.length() > 1?                                                                                          // If price string is greater than one in length,
+                s                                                                                                       // Ignore filler; return string.
+                :                                                                                                       // else,
+                rtl?                                                                                                    // Append "0" based on rtl.
+                        "0" + s
+                        :
+                        s + "0";
     }
 
     /**
      * @inheritDoc
      */
     @Override
-    public void formatDecimal(T len) throws NotImplementedException {
+    public void formatDecimal() throws NotImplementedException {
         throw new NotImplementedException("");
     }
 

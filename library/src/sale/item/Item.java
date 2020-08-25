@@ -36,7 +36,7 @@ public class Item extends Sellable {
     /**
      * Price of the Item
      *
-     * @apiNote Via abstraction, Short, Small or Long prices are compatable here.
+     * @apiNote Via abstraction, Short, Small or Long prices are compatible here.
      */
     private ShortPrice price;
 

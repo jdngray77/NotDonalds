@@ -35,8 +35,8 @@ public class SellableCollection<T> extends Sellable {
             fractional += item.price().getFractional();
         }
 
-        ShortPrice total = new ShortPrice(decimal, fractional, GlobalConstants.DEFAULT_CURRENCY_SYMBOL);                         // Create a new price with the total values
-        total.formatDecimal((short) GlobalConstants.DEFAULT_CURRENCY_DECIMAL_LENGTH);                                            // Format the price to match decimalisation length. (i.e £10.174 => £27.4)
+        ShortPrice total = new ShortPrice(decimal, fractional, GlobalConstants.DEFAULT_CURRENCY_SYMBOL);                // Create a new price with the total values
+        total.formatDecimal();                                                                                          // Format the price to match decimalisation length. (i.e £10.174 => £27.4)
         return total;                                                                                                   // return requested total to caller.
     }
 }

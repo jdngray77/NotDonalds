@@ -18,7 +18,7 @@ public final class ShortPrice extends Price<Short> {
      * @inheritDoc
      */
     public ShortPrice(Short _decimal, Short _fractional) {
-        super(_decimal, _fractional);
+        super(_decimal, (short) DEFAULT_LENGTH, _fractional);
     }
 
     /**
@@ -27,7 +27,7 @@ public final class ShortPrice extends Price<Short> {
      * @inheritDoc
      */
     public ShortPrice(Short _decimal, Short _fractional, char _symbol) {
-        super(_decimal, _fractional, _symbol);
+        super(_decimal, _fractional, (short) DEFAULT_LENGTH, _symbol);
     }
 
     /**
@@ -36,28 +36,27 @@ public final class ShortPrice extends Price<Short> {
      * @inheritDoc
      */
     public ShortPrice(Short _decimal, Short _fractional, char _symbol, boolean _rtl) {
-        super(_decimal, _fractional, _symbol, _rtl);
+        super(_decimal, _fractional, (short) DEFAULT_LENGTH, _symbol, _rtl);
     }
 
     /**
      * @inheritDoc
-     * @param len Maximum quantity permitted
      */
     @Override
-    public void formatDecimal(Short len){
-        overridePrice((short) (getDecimal() + Math.floorDiv(getFractional(), len)), (short) (getFractional() % len), getSymbol(), getRTL());
+    public void formatDecimal(){
+        overridePrice((short) (getDecimal() + (getFractional() - (getFractional() % length))), (short) (getFractional() % length), (short) DEFAULT_LENGTH, getSymbol(), getRTL());
     }
 
     public void overridePrice(Short _decimal, Short _fractional){
         fractional = _fractional;
         decimal = _decimal;
+        formatDecimal();
     }
 
     public ShortPrice times(byte i){
-        ShortPrice total = new ShortPrice((short) 0, (short) 0);
-        for (int j = 0; j <= i; j++) {
+        ShortPrice total = new ShortPrice((short) 0, (short) 0, getSymbol(), getRTL());
+        for (int j = 0; j < i; j++) {
             total.overridePrice((short) (total.getDecimal() + getDecimal()), (short) (total.getFractional() + getFractional()));
-            total.formatDecimal((short) 10);
         }
         return total;
     }

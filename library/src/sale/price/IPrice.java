@@ -12,7 +12,7 @@ public interface IPrice<T> extends Serializable {
     /**
      * Overwrites the exsisting stored price with a new value, with out creating a new instance.
      */
-    void overridePrice(T _decimal, T _fractional, char _symbol, boolean _rtl);
+    void overridePrice(T _decimal, T _fractional, T _length, char _symbol, boolean _rtl);
 
     /**
      * @return price of this instance, formatted, and represented as a floating point integer.
@@ -49,9 +49,8 @@ public interface IPrice<T> extends Serializable {
      * @throws ExecutionControl.NotImplementedException if called where not overriden with typed extention.
      *
      * @example $3.105 formatted with len 10 results in $13.5
-     * @param len Maximum quantity permitted
      */
-    void formatDecimal(T len) throws ExecutionControl.NotImplementedException;
+    void formatDecimal() throws ExecutionControl.NotImplementedException;
 
     /**
      * @return pre-decimal section of the price
