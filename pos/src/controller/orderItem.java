@@ -1,7 +1,9 @@
 package controller;
 
+import io.MenuHelper;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
 import sale.item.Item;
 
 import java.io.IOException;
@@ -14,13 +16,16 @@ public class orderItem extends FXMLController {
     public static String ORDER_ITEM_FXML = "../fxml/orderItem.fxml";
 
     @FXML
-    public Label txtQuantity;
+    protected Label txtQuantity;
 
     @FXML
-    public Label txtPrice;
+    protected Label txtPrice;
 
     @FXML
-    public Label txtName;
+    protected Label txtName;
+
+    @FXML
+    protected ImageView itemImage;
 
 
     /**
@@ -41,6 +46,18 @@ public class orderItem extends FXMLController {
 
     public void render(){
         txtName.setText(item.name());
+        itemImage.setImage(MenuHelper.getImage(item));
+        // ((pos) parentController).reRenderOrder();
+
+        /*
+         DO NOT RE-RENDER ORDER HERE.
+         RE-RENDERING AN ORDER RE-RENDERS ALL ITEMS ON THE ORDER,
+         CAUSING AN INFINITE LOOP.
+         */
+        reRender(); // To set price values, not actually re-render
+    }
+
+    public void reRender(){
         txtPrice.setText(item.price().asDisplay());
         txtQuantity.setText(String.valueOf(item.getQuantity()));
     }
@@ -52,6 +69,16 @@ public class orderItem extends FXMLController {
         super(ORDER_ITEM_FXML);
     }
 
+    public void select() {
+        if (item.getQuantity() > 1) {
+            item.addQuantity(-1);
+            render();
+        } else
+            ((pos) parentController).removeOrderItem(this);
+
+        ((pos) parentController).reRenderOrder();
+    }
+
     /**
         Create a new orderItem from FXML.
      */
@@ -60,4 +87,20 @@ public class orderItem extends FXMLController {
         c.setItem(_item);
         return c;
     }
+
+    public void inc(){
+        item.addQuantity(1);
+        render();
+    }
+
+    public void dec(){
+        item.addQuantity(-1);
+
+        if (item.getQuantity() < 1)
+            ((pos) parentController).removeOrderItem(this);
+        else
+            render();
+    }
+
+
 }

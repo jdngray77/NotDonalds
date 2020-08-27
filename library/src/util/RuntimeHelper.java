@@ -96,6 +96,15 @@ public class RuntimeHelper {
     public static void alertFailiure(String s) {
         new Alert(Alert.AlertType.ERROR, s, ButtonType.OK).showAndWait();
     }
+
+    /**
+     * Displays a JFX error window with 's'
+     * @param s the message to display.
+     */
+    public static void alertFailiure(String s, Exception e) {
+        e.printStackTrace();
+        alertFailiure(s);
+    }
     //#endregion
 
 }

@@ -7,6 +7,7 @@ import sale.menu.MenuCategory;
 import sale.menu.MenuItem;
 import sale.price.ShortPrice;
 import util.GlobalConstants;
+import util.RuntimeHelper;
 import xmlwise.Plist;
 import xmlwise.XmlParseException;
 
@@ -139,6 +140,18 @@ public class MenuHelper {
         return list;
     }
 
+    public static Image getImage(Item item) {
+        Image image = MenuHelper.DEFAULT_ITEM_IMG;
+        try {
+            image = new Image(MenuHelper.class.getResource("/img/" + item.name() + ".png").toString());
+        } catch (Exception e){
+            RuntimeHelper.log(MenuHelper.class, "[WARN] " + item.name() + " has no matching image!");
+        }
+        finally {
+            return image;
+        }
+    }
+
     /**
      * Debug execution, parses menu plist.
      * @param args
@@ -148,6 +161,8 @@ public class MenuHelper {
         ArrayList<Item> items = allItems(menu);
         assert items != null;
     }
+
+
 
 
 }

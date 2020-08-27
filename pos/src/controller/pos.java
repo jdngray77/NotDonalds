@@ -3,6 +3,7 @@ package controller;
 import io.MenuHelper;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.layout.TilePane;
 import sale.Order;
 import sale.item.Item;
@@ -14,10 +15,13 @@ import java.io.IOException;
 public final class pos extends FXMLController {
 
     @FXML
-    public TilePane menuTilePanel;
+    protected TilePane menuTilePanel;
 
     @FXML
-    public TilePane orderTileView;
+    protected TilePane orderTileView;
+
+    @FXML
+    protected Label txtOrderTotal;
 
     private Order activeOrder = new Order();
 
@@ -42,7 +46,7 @@ public final class pos extends FXMLController {
     public void addOrderItem(Item item) {
         if (item.name() == lastItem.getItem().name()){
             lastItem.getItem().addQuantity();
-            lastItem.render();
+            lastItem.reRender();
             return;
         }
 
@@ -54,6 +58,15 @@ public final class pos extends FXMLController {
             RuntimeHelper.alertFailiure("Failed to add item to order (" + e.getMessage() + ")");
         }
         activeOrder.items.add(lastItem.getItem());
+    }
+
+    public void removeOrderItem(orderItem orderItem){
+        removeOrderItem(orderItem.getItem());
+        orderTileView.getChildren().remove(orderItem.anchorPane);
+    }
+
+    public void removeOrderItem(Item item){
+        activeOrder.items.remove(item);
     }
 
     /**
@@ -81,6 +94,8 @@ public final class pos extends FXMLController {
     }
 
     public void reRenderOrder() {
+        assert orderTileView != null;
+        if (orderTileView == null) return;                                                                              // If there is no tile view to render, don't try to render it. This is called before the window is even created, when the NULL_ITEM is initialised - causing null pointers at startup.
         orderTileView.getChildren().clear();
         for (Item item : activeOrder.items) {
             try {
@@ -88,7 +103,9 @@ public final class pos extends FXMLController {
             } catch (IOException e) {
                 RuntimeHelper.log(this, "[WARN] Failed to render order item " + item + " (" + e.getMessage() + ")");
             }
-        };
+        }
+
+        txtOrderTotal.setText(activeOrder.price().asDisplay());
     }
 
     /**

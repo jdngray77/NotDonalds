@@ -60,4 +60,9 @@ public final class ShortPrice extends Price<Short> {
         }
         return total;
     }
+
+    public void add(short decimal, short fractional){
+        overridePrice((short) (getDecimal() + decimal), (short) (getFractional() + fractional));
+
+    }
 }

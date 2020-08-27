@@ -8,47 +8,13 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1124.0" prefWidth="1867.0" styleClass="global-base" stylesheets="@../style/pos.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.pos">
    <children>
-      <SplitPane dividerPositions="0.2" layoutX="3.0" layoutY="-1.0" prefHeight="1124.0" prefWidth="1863.0" styleClass="global-transparent" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="29.0">
+      <SplitPane dividerPositions="0.0" layoutX="3.0" layoutY="-1.0" prefHeight="1124.0" prefWidth="1863.0" styleClass="global-transparent" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="29.0">
         <items>
-          <AnchorPane minHeight="0.0" minWidth="100.0" prefHeight="160.0" prefWidth="100.0" styleClass="global-transparent">
+          <AnchorPane maxWidth="350.0" minHeight="0.0" minWidth="390.0" prefHeight="160.0" prefWidth="100.0" styleClass="global-transparent">
                <children>
-                  <AnchorPane maxHeight="200.0" prefHeight="200.0" prefWidth="200.0" styleClass="global-transparent" stylesheets="@../style/pos.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-                     <children>
-                        <Label text="Total" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
-                           <font>
-                              <Font name="Helvetica Light" size="31.0" />
-                           </font>
-                        </Label>
-                        <Label text="£00.00" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">
-                           <font>
-                              <Font name="Helvetica Light" size="41.0" />
-                           </font>
-                        </Label>
-                        <Label text="Meals" textFill="WHITE">
-                           <font>
-                              <Font name="Helvetica Light" size="23.0" />
-                           </font>
-                        </Label>
-                        <Label layoutX="10.0" layoutY="10.0" text="Items" textFill="WHITE" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="25.0">
-                           <font>
-                              <Font name="Helvetica Light" size="23.0" />
-                           </font>
-                        </Label>
-                        <Label layoutX="20.0" layoutY="20.0" text="1" textFill="WHITE" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                           <font>
-                              <Font name="Helvetica Light" size="23.0" />
-                           </font>
-                        </Label>
-                        <Label layoutX="30.0" layoutY="30.0" text="4" textFill="WHITE" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
-                           <font>
-                              <Font name="Helvetica Light" size="23.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </AnchorPane>
-                  <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="890.0" prefWidth="368.0" styleClass="global-transparent" AnchorPane.bottomAnchor="201.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="890.0" prefWidth="368.0" styleClass="global-transparent" AnchorPane.bottomAnchor="345.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <content>
-                        <TilePane id="menuTilePane" fx:id="orderTileView" alignment="TOP_CENTER" prefColumns="1" prefRows="10000" prefTileHeight="80.0" prefTileWidth="350.0" scaleShape="false" styleClass="global-base">
+                        <TilePane id="menuTilePane" fx:id="orderTileView" prefColumns="1" prefRows="10000" prefTileHeight="200.0" prefTileWidth="350.0" scaleShape="false" styleClass="global-base" tileAlignment="TOP_LEFT">
                            <opaqueInsets>
                               <Insets />
                            </opaqueInsets>
@@ -58,6 +24,72 @@
                         </TilePane>
                      </content>
                   </ScrollPane>
+                  <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="349.0" prefWidth="350.0" styleClass="global-base" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                    <items>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="196.0" prefWidth="348.0">
+                           <children>
+                              <AnchorPane layoutY="-59.0" maxHeight="228.0" prefHeight="164.0" prefWidth="346.0" styleClass="global-transparent" stylesheets="@../style/pos.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                 <children>
+                                    <Label text="Total" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
+                                       <font>
+                                          <Font name="Helvetica Light" size="31.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="txtOrderTotal" text="£00.00" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                       <font>
+                                          <Font name="Helvetica Light" size="41.0" />
+                                       </font>
+                                    </Label>
+                                    <Label text="Meals" textFill="WHITE">
+                                       <font>
+                                          <Font name="Helvetica Light" size="23.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="10.0" layoutY="10.0" text="Items" textFill="WHITE" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="25.0">
+                                       <font>
+                                          <Font name="Helvetica Light" size="23.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="20.0" layoutY="20.0" text="1" textFill="WHITE" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <font>
+                                          <Font name="Helvetica Light" size="23.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="30.0" layoutY="30.0" text="4" textFill="WHITE" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
+                                       <font>
+                                          <Font name="Helvetica Light" size="23.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </AnchorPane>
+                           </children></AnchorPane>
+                        <GridPane alignment="CENTER" minHeight="180.0" prefHeight="200.0" prefWidth="369.0">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="114.0" minWidth="10.0" prefWidth="98.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="104.0" minWidth="10.0" prefWidth="102.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <Button mnemonicParsing="false" prefHeight="29.0" prefWidth="153.0" style="-fx-background-color: green;" text="EFT" textFill="#ffcf45" GridPane.rowIndex="4" />
+                              <Button mnemonicParsing="false" prefHeight="29.0" prefWidth="153.0" text="Quantity" GridPane.rowIndex="1" />
+                              <Button mnemonicParsing="false" prefHeight="29.0" prefWidth="153.0" text="Table" GridPane.rowIndex="2" />
+                              <Button mnemonicParsing="false" prefHeight="29.0" prefWidth="153.0" text="Stash Tab" GridPane.columnIndex="1" />
+                              <Button mnemonicParsing="false" prefHeight="29.0" prefWidth="153.0" text="Recall Tab" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <Button mnemonicParsing="false" prefHeight="29.0" prefWidth="153.0" text="Recall Order" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                              <Button mnemonicParsing="false" prefHeight="29.0" prefWidth="153.0" text="Meal" />
+                              <Button mnemonicParsing="false" prefHeight="29.0" prefWidth="153.0" style="-fx-background-color: red;" text="Void Order" textFill="#ffcf45" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                              <Button mnemonicParsing="false" prefHeight="29.0" prefWidth="153.0" style="-fx-background-color: green;" text="Cash" textFill="#ffcf45" GridPane.rowIndex="3" />
+                              <Button mnemonicParsing="false" prefHeight="29.0" prefWidth="153.0" style="-fx-background-color: red;" text="Refund Order" textFill="#ffcf45" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                           </children>
+                        </GridPane>
+                    </items>
+                  </SplitPane>
                </children>
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" styleClass="global-transparent">
@@ -84,6 +116,8 @@
           <Menu mnemonicParsing="false" text="Option">
             <items>
               <MenuItem mnemonicParsing="false" onAction="#close" text="Close" />
+                  <MenuItem mnemonicParsing="false" onAction="#close" text="Stock Limit" />
+                  <MenuItem mnemonicParsing="false" onAction="#close" text="KS Monitor" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Debug">

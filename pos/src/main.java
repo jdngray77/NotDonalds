@@ -28,28 +28,31 @@ public class main extends Application {
      * @throws IOException
      */
     @Override
-    public void start(Stage primaryStage) throws IOException {
+    public void start(Stage primaryStage)  {
         RuntimeHelper.log(this, "[PRELOAD] Validating startup configuration..");
         if (!assertConnection() || !loadMenu()) return;                                                                 // Before loading UI, check that a server is available then fetch the menu from it.
         RuntimeHelper.log(this, "[PRELOAD] Able to start, commence!");
 
-                                                                                                                        // PREPARE THE LOADER
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(pos.POS_FXML));                                       // Create a loader to load the form from FXML file
+        try {                                                                                                               // PREPARE THE LOADER
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(pos.POS_FXML));                                       // Create a loader to load the form from FXML file
 
-                                                                                                                        // PREPARE THE SCENE FOR STAGE
-        // FXML INJECTION NOTE
-        // Controller variables annotated with @FXML, that match an fx:id and type of a component within the
-        // scene, will be automatically populated with a reference to the scene instance by this load.
-        //
-        // i.e posController.menuTilePane matches the scene TilePane with fx:id "menuTilePanel"
-        Scene scene = new Scene(loader.load(), 1920, 1080);                                                 // Load the scene from FXML
-        controller = loader.getController();
-                                                                                                                        // PREPARE THE STAGE TO SHOW SCENE
-        primaryStage.setTitle(RuntimeHelper.SYSTEM_NAME);                                                               // Set the stage title
-        primaryStage.setScene(scene);                                                                                   // place loaded FXML scene on stage
-        primaryStage.setFullScreen(true);                                                                               // Fullscreen stage
-        controller.renderMenu();
-        primaryStage.show();                                                                                            // Show the stage as a window.
+            // PREPARE THE SCENE FOR STAGE
+            // FXML INJECTION NOTE
+            // Controller variables annotated with @FXML, that match an fx:id and type of a component within the
+            // scene, will be automatically populated with a reference to the scene instance by this load.
+            //
+            // i.e posController.menuTilePane matches the scene TilePane with fx:id "menuTilePanel"
+            Scene scene = new Scene(loader.load(), 1920, 1080);                                                 // Load the scene from FXML
+            controller = loader.getController();
+            // PREPARE THE STAGE TO SHOW SCENE
+            primaryStage.setTitle(RuntimeHelper.SYSTEM_NAME);                                                               // Set the stage title
+            primaryStage.setScene(scene);                                                                                   // place loaded FXML scene on stage
+            primaryStage.setFullScreen(true);                                                                               // Fullscreen stage
+            controller.renderMenu();
+            primaryStage.show();                                                                                            // Show the stage as a window.
+        } catch (IOException e) {
+            alertStartFailure("Failed to create ui: ",e);
+        }
     }
 
     /**
@@ -71,8 +74,7 @@ public class main extends Application {
            }
        } catch (Exception e) {
            RuntimeHelper.log(this, "[CONFIG] Connection not valid!");
-           e.printStackTrace();
-           alertStartFailure("[CONFIG] Failed to connect to the server, " + e.getMessage());
+           alertStartFailure("[CONFIG] Failed to connect to the server, ",e);
            return false;
        }
     }
@@ -88,14 +90,13 @@ public class main extends Application {
             return true;
         } catch (IOException e) {
             RuntimeHelper.log(this, "[CONFIG] Failed to get menu from server!");
-            e.printStackTrace();
-            alertStartFailure("[CONFIG] Failed to load menu from server, " + e.getMessage());
+            alertStartFailure("[CONFIG] Failed to load menu from server, ", e);
             return false;
         }
     }
 
-    private void alertStartFailure(String message){
-        RuntimeHelper.alertFailiure("[CONFIG] Cannot start (" + message + ")");
+    private void alertStartFailure(String message, Exception e){
+        RuntimeHelper.alertFailiure("[STARTUP] Cannot start (" + message + ": " + e.getMessage() + ")",e);
     }
 
     /**

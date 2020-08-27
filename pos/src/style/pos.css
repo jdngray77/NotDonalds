@@ -42,12 +42,18 @@
 
 
 // Menu Bar
-.menu, .menu-item, .context-menu {
-    -fx-background-color: linear-gradient(to right, #161118, #402530) center;
+.menu, .menu-item, .context-menu, .button {
+    -fx-background-color: linear-gradient(to right, rgba(30,30,30,255), rgba(80,80,80,255)) center;
+    -fx-background-radius: 20px;
+    -fx-text-fill: rgb(255,255,255);
+}
+
+.menu:hover, .menu-item:hover, .button:hover {
+    -fx-background-color: rgba(110,110,110,255);
     -fx-background-radius: 20px;
 }
 
-.menu-item:hover {
-    -fx-background-color: #402530;
+.menu:pressed, .menu-item:pressed, .button:pressed {
+    -fx-background-color: rgba(50,50,50,255);
     -fx-background-radius: 20px;
 }

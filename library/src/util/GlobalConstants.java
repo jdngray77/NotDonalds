@@ -9,4 +9,5 @@ public class GlobalConstants {
 
     public static final char DEFAULT_CURRENCY_SYMBOL = '£';
 
+    public static final boolean DEFAULT_RTL = false;
 }
