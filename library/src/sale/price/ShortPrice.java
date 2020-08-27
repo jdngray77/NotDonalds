@@ -44,7 +44,7 @@ public final class ShortPrice extends Price<Short> {
      */
     @Override
     public void formatDecimal(){
-        overridePrice((short) (getDecimal() + (getFractional() - (getFractional() % length))), (short) (getFractional() % length), (short) DEFAULT_LENGTH, getSymbol(), getRTL());
+        overridePrice((short) (getDecimal() + (getFractional() - (getFractional() % length)) / length), (short) (getFractional() % length), (short) DEFAULT_LENGTH, getSymbol(), getRTL());
     }
 
     public void overridePrice(Short _decimal, Short _fractional){

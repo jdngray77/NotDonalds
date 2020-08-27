@@ -20,7 +20,7 @@ abstract class Price<T> implements IPrice<T> {
     /**
      * Default decimal length.
      */
-    public static final byte DEFAULT_LENGTH = 100;
+    public static final byte DEFAULT_LENGTH = 10;
 
     /**
      *  Fractional, partial, section of the currency notation.
