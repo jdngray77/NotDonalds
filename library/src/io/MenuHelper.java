@@ -1,6 +1,8 @@
 package io;
 
 import javafx.scene.image.Image;
+import network.Client;
+import network.packet.Packet;
 import sale.item.Item;
 import sale.menu.Menu;
 import sale.menu.MenuCategory;
@@ -41,6 +43,14 @@ public class MenuHelper {
         } catch (Exception e) {
             return null;
         }
+    }
+
+    /**
+     * Sends a menu request to a connected server, and stores the serialized menu sent in return.
+     * @throws IOException If a connection issue arises.
+     */
+    public static void loadMenuFromServer() throws IOException {
+        menu = (Menu) Client.sendToServer(Packet.MENU_REQUEST).getPacketData();
     }
 
     /**
@@ -162,7 +172,7 @@ public class MenuHelper {
         assert items != null;
     }
 
-
-
-
+    public static void clearMenu() {
+        menu = null;
+    }
 }

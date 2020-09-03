@@ -13,7 +13,7 @@ public class orderItem extends FXMLController {
     /**
      * FXML base for an order item
      */
-    public static String ORDER_ITEM_FXML = "../fxml/orderItem.fxml";
+    public static String ORDER_ITEM_FXML = "./fxml/orderItem.fxml";
 
     @FXML
     protected Label txtQuantity;
@@ -47,8 +47,8 @@ public class orderItem extends FXMLController {
     public void render(){
         txtName.setText(item.name());
         itemImage.setImage(MenuHelper.getImage(item));
-        // ((pos) parentController).reRenderOrder();
 
+        // ((pos) parentController).reRenderOrder();
         /*
          DO NOT RE-RENDER ORDER HERE.
          RE-RENDERING AN ORDER RE-RENDERS ALL ITEMS ON THE ORDER,
@@ -60,6 +60,7 @@ public class orderItem extends FXMLController {
     public void reRender(){
         txtPrice.setText(item.price().asDisplay());
         txtQuantity.setText(String.valueOf(item.getQuantity()));
+        ((pos) parentController).reRenderSuborder();
     }
 
     /**
@@ -69,15 +70,6 @@ public class orderItem extends FXMLController {
         super(ORDER_ITEM_FXML);
     }
 
-    public void select() {
-        if (item.getQuantity() > 1) {
-            item.addQuantity(-1);
-            render();
-        } else
-            ((pos) parentController).removeOrderItem(this);
-
-        ((pos) parentController).reRenderOrder();
-    }
 
     /**
         Create a new orderItem from FXML.
@@ -97,10 +89,17 @@ public class orderItem extends FXMLController {
         item.addQuantity(-1);
 
         if (item.getQuantity() < 1)
-            ((pos) parentController).removeOrderItem(this);
+            remove();
         else
             render();
     }
 
+    public void remove(){
+        ((pos) parentController).removeOrderItem(this);
+    }
 
+    public void readQuantity() {
+        item.setQuantity(NumericInput.promptNumericInput(item.getQuantity()));
+        reRender();
+    }
 }

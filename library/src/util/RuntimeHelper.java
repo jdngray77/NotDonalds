@@ -3,6 +3,7 @@ package util;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 
+import java.awt.*;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +20,6 @@ public class RuntimeHelper {
 
     public static final String SYSTEM_NAME = "NotDonalds";
 
-
     /**
      * HH:mm date time formatter
      */
@@ -31,6 +31,11 @@ public class RuntimeHelper {
      * Preface text appended to the begining of any log.
      */
     private static String LOG_PREFACE = "[ND]";
+
+    /**
+     * Dimensional size of the runtime display.
+     */
+    public static final Dimension SCREEN_SIZE = Toolkit.getDefaultToolkit().getScreenSize();
 
     /**
      * List of all parsed logs.
@@ -93,18 +98,36 @@ public class RuntimeHelper {
      * Displays a JFX error window with 's'
      * @param s the message to display.
      */
-    public static void alertFailiure(String s) {
-        new Alert(Alert.AlertType.ERROR, s, ButtonType.OK).showAndWait();
+    public static void alertFailiure(String s, Exception e) {
+        e.printStackTrace();
+        alertFailiure(s);
     }
 
     /**
      * Displays a JFX error window with 's'
      * @param s the message to display.
      */
-    public static void alertFailiure(String s, Exception e) {
-        e.printStackTrace();
-        alertFailiure(s);
+    public static void alertFailiure(String s) {
+        alert(Alert.AlertType.ERROR, s);
+    }
+
+    /**
+     * Displays a JFX alert window with 's'
+     * @param s the message to display.
+     */
+    public static void alert(String s) {
+        new Alert(Alert.AlertType.INFORMATION, s, ButtonType.OK).showAndWait();
+    }
+
+    /**
+     * Displays a JFX alert window with 's'
+     * @param s the message to display.
+     */
+    public static void alert(Alert.AlertType t, String s) {
+        new Alert(t, s, ButtonType.OK).showAndWait();
     }
     //#endregion
+
+
 
 }

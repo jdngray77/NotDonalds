@@ -44,6 +44,21 @@ public class Packet implements Serializable {
     public PacketType type() {return _type;}
     //#endregion
 
+    //#region default packets
+
+    /**
+     * Default ping packet. Requests an acknowledge from the server.
+     * Used to test prescence and integrity of server connection.
+     */
+    public static final Packet PING = new Packet(PacketType.PING, "PING!");
+
+    /**
+     * Default menu request packet.
+     * Requests an acknowledge containing a serialized menu to serve.
+     */
+    public static final Packet MENU_REQUEST = new Packet(PacketType.MENU_REQUEST, "MENU, PLEASE!");
+
+    //#endregion default packets
     /**
      * Creates a new packet
      * @param type - Message type contained within this packet

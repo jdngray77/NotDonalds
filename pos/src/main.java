@@ -1,7 +1,7 @@
+import controller.FXMLController;
 import controller.pos;
 import io.MenuHelper;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import network.Client;
@@ -33,8 +33,8 @@ public class main extends Application {
         if (!assertConnection() || !loadMenu()) return;                                                                 // Before loading UI, check that a server is available then fetch the menu from it.
         RuntimeHelper.log(this, "[PRELOAD] Able to start, commence!");
 
-        try {                                                                                                               // PREPARE THE LOADER
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(pos.POS_FXML));                                       // Create a loader to load the form from FXML file
+        try {                                                                                                           // PREPARE THE LOADER
+            controller = (pos) FXMLController.create(pos.POS_FXML, null);
 
             // PREPARE THE SCENE FOR STAGE
             // FXML INJECTION NOTE
@@ -42,14 +42,15 @@ public class main extends Application {
             // scene, will be automatically populated with a reference to the scene instance by this load.
             //
             // i.e posController.menuTilePane matches the scene TilePane with fx:id "menuTilePanel"
-            Scene scene = new Scene(loader.load(), 1920, 1080);                                                 // Load the scene from FXML
-            controller = loader.getController();
+            Scene scene = new Scene(controller.anchorPane, 1920, 1080);                                             // Load the scene from FXML
+
+
             // PREPARE THE STAGE TO SHOW SCENE
-            primaryStage.setTitle(RuntimeHelper.SYSTEM_NAME);                                                               // Set the stage title
-            primaryStage.setScene(scene);                                                                                   // place loaded FXML scene on stage
-            primaryStage.setFullScreen(true);                                                                               // Fullscreen stage
+            primaryStage.setTitle(RuntimeHelper.SYSTEM_NAME);                                                           // Set the stage title
+            primaryStage.setScene(scene);                                                                               // place loaded FXML scene on stage
+            primaryStage.setFullScreen(true);                                                                           // Fullscreen stage
             controller.renderMenu();
-            primaryStage.show();                                                                                            // Show the stage as a window.
+            primaryStage.show();                                                                                        // Show the stage as a window.
         } catch (IOException e) {
             alertStartFailure("Failed to create ui: ",e);
         }

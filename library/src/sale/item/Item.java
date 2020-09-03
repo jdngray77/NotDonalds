@@ -47,6 +47,14 @@ public class Item extends Sellable {
     }
 
     /**
+     * @param i quantity to test is within permittable range
+     * @return true if i is between 0 and 256.
+     */
+    public static boolean inQuantityRange(int i) {
+        return (i <= Byte.MAX_VALUE && i > 0);
+    }
+
+    /**
      * @return name of the Item
      */
     public String name() {
@@ -74,11 +82,20 @@ public class Item extends Sellable {
     }
 
     public void addQuantity(int i) {
-        if (quantity + i > 255 || quantity + i < 0) {
-            RuntimeHelper.alertFailiure("Item quantity must be between 0 - 255");
+        if (!inQuantityRange(quantity + i)) {
+            RuntimeHelper.alertFailiure("Item quantity must be between 0 - " + Byte.MAX_VALUE);
         } else {
             quantity += i;
         }
+    }
+
+    public void setQuantity(int i){
+        if (inQuantityRange(i))
+            setQuantity((byte) i);
+    }
+
+    public void setQuantity(byte i){
+        quantity = i;
     }
 
     public byte getQuantity() {

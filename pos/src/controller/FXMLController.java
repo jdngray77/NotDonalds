@@ -96,12 +96,14 @@ public abstract class FXMLController extends Parent {
      * @throws IOException
      */
     public static FXMLController create(String FXML, FXMLController _parentController) throws IOException {
-        FXMLLoader loader = new FXMLLoader(menuTile.class.getResource(FXML));                                           // Create a loader with the FXML reference.
+        FXMLLoader loader = new FXMLLoader(FXMLController.class.getResource("." + FXML));                                           // Create a loader with the FXML reference.
                                                                                                                         // I need to create an instance of this JUST to get the controller of the new pane. This should be statically available.
         AnchorPane ap = loader.load();                                                                                  // parse FXML to create AP. This must be done before getting the controller, otherwise this could be collapsed to contoller.ap = loader.getcontroller
+
         FXMLController controller = loader.getController();                                                             // Get controller to set the item the pane represents.
         controller.anchorPane = ap;                                                                                     // store the anchor pane and controller for future reference.
         controller.parentController = _parentController;
+
         return controller;                                                                                              // Return newly created menu tile.
     }
 

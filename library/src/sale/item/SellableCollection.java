@@ -39,4 +39,5 @@ public class SellableCollection<T> extends Sellable {
         total.formatDecimal();                                                                                          // Format the price to match decimalisation length. (i.e £10.174 => £27.4)
         return total;                                                                                                   // return requested total to caller.
     }
+
 }

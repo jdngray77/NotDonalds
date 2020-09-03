@@ -13,7 +13,7 @@ public final class menuTile extends FXMLController {
     /**
      * point of sale base fxml document location.
      */
-    public static final String MENU_TILE_FXML = "../fxml/menuItemTile.fxml";
+    public static final String MENU_TILE_FXML = "./fxml/menuItemTile.fxml";
 
     /**
      * What menu item this tile represents
