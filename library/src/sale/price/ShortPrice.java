@@ -36,6 +36,10 @@ public final class ShortPrice extends Price<Short> {
      * @inheritDoc
      */
     public ShortPrice(Short _decimal, Short _fractional, char _symbol, boolean _rtl) {
+        this(_decimal, _fractional, DEFAULT_LENGTH, _symbol, _rtl);
+    }
+
+    public ShortPrice(Short _decimal, Short _fractional, byte _length, char _symbol, boolean _rtl) {
         super(_decimal, _fractional, (short) DEFAULT_LENGTH, _symbol, _rtl);
     }
 

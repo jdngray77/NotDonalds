@@ -32,11 +32,15 @@ public final class NumericInput extends FXMLController {
 
     public static final String NUMERIC_INPUT_FXML = "./fxml/numericInput.fxml";
 
+    public static final String ITEM_REMOVE = "REMOVE_ITEM";
+
+    public static final int ITEM_REMOVE_INDICATOR = -42069;
+
     public void showAndWait(){
         // CREATE
         alert = new Alert(Alert.AlertType.INFORMATION);
         alert.getDialogPane().setContent(anchorPane);
-        alert.getDialogPane().setPrefSize(RuntimeHelper.SCREEN_SIZE.getWidth(), RuntimeHelper.SCREEN_SIZE.getHeight());
+        alert.getDialogPane().setPrefSize(400, 600);
 
         // STYLE
         alert.setHeaderText(null); // These two lines remove the top content, removing the alert header.
@@ -52,6 +56,8 @@ public final class NumericInput extends FXMLController {
     }
 
     private void append(int i){
+        if (lblDisplay.getText() == ITEM_REMOVE)
+            lblDisplay.setText("");
         lblDisplay.setText(lblDisplay.getText() + i);
     }
 
@@ -121,7 +127,10 @@ public final class NumericInput extends FXMLController {
 
     public int value(){
         try {
-            return Integer.parseInt(lblDisplay.getText());
+            if (lblDisplay.getText() == ITEM_REMOVE)
+                return ITEM_REMOVE_INDICATOR;
+            else
+                return Integer.parseInt(lblDisplay.getText());
         } catch (Exception e){
             RuntimeHelper.alertFailiure("Invalid Numeric Input", e);
         }
@@ -138,5 +147,17 @@ public final class NumericInput extends FXMLController {
             RuntimeHelper.alertFailiure("Failed to prompt for input", e);
         }
             return 0;
+    }
+
+    public void min() {
+        lblDisplay.setText("1");
+    }
+
+    public void remove() {
+        lblDisplay.setText(ITEM_REMOVE);
+    }
+
+    public void max() {
+        lblDisplay.setText(String.valueOf(Byte.MAX_VALUE));
     }
 }

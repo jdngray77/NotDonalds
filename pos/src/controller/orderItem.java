@@ -99,7 +99,14 @@ public class orderItem extends FXMLController {
     }
 
     public void readQuantity() {
-        item.setQuantity(NumericInput.promptNumericInput(item.getQuantity()));
+        int input = NumericInput.promptNumericInput(item.getQuantity());
+        if (input == NumericInput.ITEM_REMOVE_INDICATOR) {
+            remove();
+            return;
+        } else {
+            item.setQuantity(input);
+        }
+
         reRender();
     }
 }

@@ -120,13 +120,22 @@
                   <MenuItem mnemonicParsing="false" onAction="#close" text="KS Monitor" />
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="Debug">
+          <Menu mnemonicParsing="false" text="Technical Debug">
             <items>
-              <MenuItem mnemonicParsing="false" onAction="#addMenuItem" text="Add Null Menu Item" />
+                  <MenuItem mnemonicParsing="false" onAction="#lmo" text="FOR TECHNITIONS ONLY!" />
+                  <Menu mnemonicParsing="false" text="Menu">
+                     <items>
+                    <MenuItem mnemonicParsing="false" onAction="#addMenuItem" text="Add Null Menu Item" />
+                        <MenuItem mnemonicParsing="false" onAction="#clearMenu" text="Clear Menu" />
+                        <MenuItem mnemonicParsing="false" onAction="#reloadMenu" text="Reload from server" />
+                        <MenuItem mnemonicParsing="false" onAction="#clearLastItem" text="[ ADVANCED ] CLEAR LAST ITEM PROPERTY" />
+                     </items>
+                  </Menu>
                   <Menu mnemonicParsing="false" text="Rendering">
                      <items>
                         <MenuItem mnemonicParsing="false" onAction="#renderMenu" text="Re-Render Menu" />
                         <MenuItem mnemonicParsing="false" onAction="#reRenderOrder" text="Re-Render Order" />
+                        <MenuItem mnemonicParsing="false" onAction="#reRenderSuborder" text="Re-Render Sub-Order" />
                      </items>
                   </Menu>
                   <Menu mnemonicParsing="false" text="Server">
@@ -135,6 +144,7 @@
                         <MenuItem mnemonicParsing="false" onAction="#ping" text="Ping" />
                      </items>
                   </Menu>
+                  <MenuItem mnemonicParsing="false" onAction="#pricetest" text="Price multiplication test" />
             </items>
           </Menu>
         </menus>

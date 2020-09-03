@@ -83,7 +83,7 @@ public class Item extends Sellable {
 
     public void addQuantity(int i) {
         if (!inQuantityRange(quantity + i)) {
-            RuntimeHelper.alertFailiure("Item quantity must be between 0 - " + Byte.MAX_VALUE);
+            alertOOR();
         } else {
             quantity += i;
         }
@@ -92,6 +92,15 @@ public class Item extends Sellable {
     public void setQuantity(int i){
         if (inQuantityRange(i))
             setQuantity((byte) i);
+        else
+            alertOOR();
+    }
+
+    /**
+     * Alert out of range.
+     */
+    private static void alertOOR(){
+        RuntimeHelper.alertFailiure("Item quantity must be between 0 - " + Byte.MAX_VALUE);
     }
 
     public void setQuantity(byte i){

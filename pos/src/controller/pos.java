@@ -3,6 +3,7 @@ package controller;
 import io.MenuHelper;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.layout.TilePane;
 import network.Client;
@@ -12,6 +13,7 @@ import sale.item.Item;
 import util.HaltCodes;
 import util.RuntimeHelper;
 import util.packettest.tester;
+import util.currency.multiplication;
 
 import java.io.IOException;
 
@@ -215,6 +217,7 @@ public final class pos extends FXMLController {
      * If there's no more items in the order, it's set to a null item,
      * otherwise it's set the the current last item in the order list.
      */
+    @javafx.fxml.FXML
     private void clearLastItem() {
         // REDACTED: CANNOT GET ORDERITEM CONTROLLER FOR ORDER ITEM FROM THE ANCHOR PANE, OR ITEM IN ORDER.
         //if (activeOrder.items.size() > 0)
@@ -228,7 +231,7 @@ public final class pos extends FXMLController {
         MenuHelper.clearMenu();                                                                                         // Clear directly, this.clearmenu adds an unnescacerry re-render
         try {
             MenuHelper.loadMenuFromServer();                                                                            // Load menu from server
-            RuntimeHelper.alert("Menu up to date with server!");
+            RuntimeHelper.alert("Menu loaded from server!");
         } catch (IOException e) {
             RuntimeHelper.alertFailiure("Failed to reload menu. POS now has no menu!", e);
         } finally {
@@ -239,6 +242,18 @@ public final class pos extends FXMLController {
     public void clearMenu() {
         MenuHelper.clearMenu();                                                                                         // Clear menu
         renderMenu();                                                                                                   // render
+    }
+
+    @FXML
+    private void lmo(ActionEvent actionEvent) {
+        new Alert(Alert.AlertType.WARNING, "Hold up, how did you get here?? Who are you? This is a banner, not a button! It wasn't even supposed to be clicked! " +
+                                                    "I mean, what did you really expect, Some kind of easter egg? Life altering advice? A new career? Listen here you mischiveous little shit," +
+                                                    " This menu is for people who actually know what they're doing, so why don't you pop off, pettle.")
+        .showAndWait();
+    }
+
+    public void pricetest() {
+         new multiplication();
     }
     //#endregion utility methods
 

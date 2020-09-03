@@ -1,5 +1,6 @@
 package util.packettest;
 
+import javafx.scene.control.Alert;
 import network.Client;
 import network.packet.Packet;
 import network.packet.PacketType;
@@ -21,6 +22,8 @@ public class tester {
     private JPanel tester;
 
     public tester(){
+        new Alert(Alert.AlertType.WARNING, "Packet Tester Tool is intended for technical use only. It constructs and sends packets to the local server, and documents the response.").showAndWait();
+
         lstResponse.setModel(model);
         JFrame frame = new JFrame("Packet Test");
         frame.setContentPane(tester);
@@ -36,16 +39,18 @@ public class tester {
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
                 try {
+                    Packet response = Client.sendToServer(
+                            new Packet(
+                                    PacketType.values()[comboPacketType.getSelectedIndex()],
+                                    txtPacketMeta.getText()
+                            )
+                    );
                     model.addElement(
                             "[SENT] " +
                                     PacketType.values()[comboPacketType.getSelectedIndex()] +
-                                    " [GOT] " +
-                                    Client.sendToServer(
-                                            new Packet(
-                                                    PacketType.values()[comboPacketType.getSelectedIndex()],
-                                                    txtPacketMeta.getText()
-                                            )
-                                    ).type());
+                                    " [GOT] " + response.type() + "; "
+                                    + response.metaMessage
+                                    );
                 } catch (IOException ioException) {
                     JOptionPane.showMessageDialog(null, ioException.getMessage(), "Packet failed!", JOptionPane.ERROR_MESSAGE);
                 }
