@@ -17,61 +17,56 @@ import sale.item.Item;
 
 import java.io.IOException;
 
+/**
+ * FXML Controller for order items.
+ *
+ * @author gordie
+ * @version 1
+ */
 public class orderItem extends FXMLController {
 
+    //#region constants
     /**
      * FXML base for an order item
      */
-    public static String ORDER_ITEM_FXML = "./fxml/orderItem.fxml";
+    public static final String ORDER_ITEM_FXML = "./fxml/orderItem.fxml";
+    //#endregion
 
+    //#region FXML objects
+    /**
+     * text label representing the quantity of this item
+     */
     @FXML
     protected Label txtQuantity;
 
+    /**
+     * text label representing price of this item
+     */
     @FXML
     protected Label txtPrice;
 
+    /**
+     * text label representing name of this item
+     */
     @FXML
     protected Label txtName;
 
+    /**
+     * Image representing this item.
+     */
     @FXML
     protected ImageView itemImage;
+    //#endregion
 
-
+    //#region properties
     /**
      * The item that this order item represents.
      */
     private Item item;
 
-    public Item getItem() {return item;}
+    //#endregion
 
-    /**
-     * Sets the item this order item represents.
-     * @param _item
-     */
-    public void setItem(Item _item) {
-        item = _item;
-        render();
-    }
-
-    public void render(){
-        txtName.setText(item.name());
-        itemImage.setImage(MenuHelper.getImage(item));
-
-        // ((pos) parentController).reRenderOrder();
-        /*
-         DO NOT RE-RENDER ORDER HERE.
-         RE-RENDERING AN ORDER RE-RENDERS ALL ITEMS ON THE ORDER,
-         CAUSING AN INFINITE LOOP.
-         */
-        reRender(); // To set price values, not actually re-render
-    }
-
-    public void reRender(){
-        txtPrice.setText(item.price().asDisplay());
-        txtQuantity.setText(String.valueOf(item.getQuantity()));
-        posParent().reRenderSuborder();
-        animateUpdate();
-    }
+    //#region constructor
 
     /**
      * Creates a new FXML controller.
@@ -80,15 +75,60 @@ public class orderItem extends FXMLController {
         super(ORDER_ITEM_FXML);
     }
 
+    //#endregion
+
+    //#region getter / setter
+    /**
+     * @return the item this represents.
+     */
+    public Item getItem() {return item;}
 
     /**
-        Create a new orderItem from FXML.
+     * Sets the item this order item represents,
+     * then re-renders to display it.
+     * @param _item
      */
-    public static orderItem create(FXMLController controller, Item _item) throws IOException {
-        orderItem c = (orderItem) FXMLController.create(orderItem.ORDER_ITEM_FXML, controller);
-        c.setItem(_item);
-        return c;
+    public void setItem(Item _item) {
+        item = _item;
+        render();
     }
+    //#endregion
+
+    //#region rendering
+
+    /**
+     * Renders the item this represents.
+     */
+    public void render(){
+        txtName.setText(item.name());
+        itemImage.setImage(MenuHelper.getImage(item));
+
+        /*
+         REDACTED:
+
+         DO NOT RE-RENDER ORDER HERE.
+         RE-RENDERING AN ORDER RE-RENDERS ALL ITEMS ON THE ORDER,
+         CAUSING AN INFINITE LOOP.
+         */
+
+        // posParentController().reRenderOrder();
+        reRender(); // To set price values, not actually re-render
+    }
+
+    /**
+     * Updates value fields to match the stored item,
+     * then animates a background flash to bring attention to the change.
+     */
+    public void reRender(){
+        txtPrice.setText(item.price().asDisplay());
+        txtQuantity.setText(String.valueOf(item.getQuantity()));
+        posParent().reRenderSuborder();                             // Updates the order meta, i.e order total, item count.
+        animateUpdate();                                            // Trigger background animation.
+    }
+    //#endregion
+
+
+
 
     public void inc(){
         item.addQuantity(1);
@@ -141,10 +181,21 @@ public class orderItem extends FXMLController {
             @Override
             protected void interpolate(double frac) {
                 Color vColor = new Color(0.5, 0.5, 0.5, 1 - frac);                              // Color to use, with opacity based on current point in animation.
-                anchorPane.setBackground(new Background(new BackgroundFill(vColor, CornerRadii.EMPTY, Insets.EMPTY)));  // Set background of order item pane with a new background containing the generated color, since the colour of an existing background cannot be modified.
+                getAnchorPane().setBackground(new Background(new BackgroundFill(vColor, CornerRadii.EMPTY, Insets.EMPTY)));  // Set background of order item pane with a new background containing the generated color, since the colour of an existing background cannot be modified.
             }
         };
 
         animation.play();
     }
+
+    //#region static utility
+    /**
+     Create a new orderItem from FXML.
+     */
+    public static orderItem create(FXMLController controller, Item _item) throws IOException {
+        orderItem c = (orderItem) FXMLController.create(orderItem.ORDER_ITEM_FXML, controller);
+        c.setItem(_item);
+        return c;
+    }
+    //#endregion
 }

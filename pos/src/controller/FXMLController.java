@@ -6,39 +6,78 @@ import javafx.scene.layout.AnchorPane;
 
 import java.io.IOException;
 
+/**
+ * Abstraction for all Controller classes for FXML scenes.
+ *
+ * @author gordie
+ * @version 1
+ */
 public abstract class FXMLController extends Parent {
 
+    //#region properties
     /**
-     * Path to the FXML definiton this controller commands.
+     * Path to the FXML definition this controller commands.
      */
     private String FXML = "";
 
-    /**
-     *
-     */
-    public AnchorPane anchorPane;
 
     /**
-     *
+     * Local FXML Loader for creating and loading FXML documents
+     * into this scene.
      */
-    public FXMLLoader loader;
+    protected FXMLLoader loader;
 
     /**
-     * FXML controller of the jfx scene to which this is a child.
+     * FXML controller to which this JFX scene is a child.
+     * May be null.
      */
+    private FXMLController parentController;
 
-    public FXMLController parentController;
+    /**
+     * Anchor pane containing all UI content of this FXML scene.
+     * For easy direct references to front end objects.
+     */
+    private AnchorPane anchorPane;
 
+    //#endregion
+
+    //#region getter / setter
+
+    /**
+     * returns the parent Controller cast to the most common parent; pos.
+     * @return this#parentController cast to pos.
+     */
+    protected pos posParent(){
+        return (pos) parentController;
+    }
+
+    /**
+     * @return returns this#parentController
+     */
+    public FXMLController getParentController() {
+        return parentController;
+    }
+
+    /**
+     * @return the anchor pane object containing all content of this FXML scene.
+     */
+    public AnchorPane getAnchorPane(){
+        return  anchorPane;
+    }
+    //#endregion
+
+    //#region Constructor
     /**
      * Default constructor, called when created by JavaFX.
      * @apiNote if creating manually use a populated constructor.
      */
     public FXMLController(){
-        this("", null);
+        this("");
     }
 
     /**
      * Creates a new FXML controller.
+     * Does NOT load FXML or create scene.
      * @param _FXML path to the FXML scene this controller commands.
      */
     public FXMLController (String _FXML){
@@ -47,13 +86,17 @@ public abstract class FXMLController extends Parent {
 
     /**
      * Creates a new FXML controller.
+     * Does NOT load FXML or create scene.
      * @param _FXML path to the FXML scene this controller commands.
+     * @param _parentController the FXML controller to which this is a child.
      */
     public FXMLController (String _FXML, FXMLController _parentController) {
         FXML = _FXML;
         parentController = _parentController;
     }
+    //#endregion
 
+    //#region methods
     /**
      * Creates a new controlled anchorPane from an instance of FXML.
      *
@@ -75,9 +118,23 @@ public abstract class FXMLController extends Parent {
     public FXMLController _clone() throws IOException {
         return create(FXML, parentController);
     }
+    //#endregion
+
+
+    //#region Static Utilities
+    /**
+     * Clones an fxml controller, and its scene, from scratch.
+     * @param controller to copy.
+     * @returns the cloned FXMLController.
+     * Returned controller may not have a scene loaded, if the FXML data on the controller
+     * parsed was not adequate.
+     */
+    public static FXMLController _clone(FXMLController controller) throws IOException {
+        return create(controller.FXML, controller.parentController);
+    }
 
     /**
-     * Creates a new controlled anchorPane from an instance of FXML.
+     * Creates a new FXML Controller that's populated with the FXML scene,
      *
      * - Creates loader
      *      - parses FXML (this.MENU_TILE_FXML)
@@ -97,7 +154,7 @@ public abstract class FXMLController extends Parent {
      */
     public static FXMLController create(String FXML, FXMLController _parentController) throws IOException {
         FXMLLoader loader = new FXMLLoader(FXMLController.class.getResource("." + FXML));                                           // Create a loader with the FXML reference.
-                                                                                                                        // I need to create an instance of this JUST to get the controller of the new pane. This should be statically available.
+        // I need to create an instance of this JUST to get the controller of the new pane. This should be statically available.
         AnchorPane ap = loader.load();                                                                                  // parse FXML to create AP. This must be done before getting the controller, otherwise this could be collapsed to contoller.ap = loader.getcontroller
 
         FXMLController controller = loader.getController();                                                             // Get controller to set the item the pane represents.
@@ -106,12 +163,5 @@ public abstract class FXMLController extends Parent {
 
         return controller;                                                                                              // Return newly created menu tile.
     }
-
-    private static FXMLController create(FXMLController controller) throws IOException {
-        return null;
-    }
-
-    protected pos posParent(){
-        return (pos) parentController;
-    }
+    //#endregion
 }

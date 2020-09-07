@@ -9,11 +9,34 @@ import util.RuntimeHelper;
 
 import java.io.IOException;
 
+/**
+ * FXML Numeric input dialog controller
+ * For graphical user input, especially on touchscreens.
+ * @author gordie
+ * @version 1
+ */
 public final class NumericInput extends FXMLController {
 
+    //#region constants
+    /**
+     * relative location to the FXML definition of an numeric input window.
+     */
+    public static final String NUMERIC_INPUT_FXML = "./fxml/numericInput.fxml";
+
+    /**
+     * The string to display when the user requests to remove an item.
+     */
+    private static final String ITEM_REMOVE_TEXT = "REMOVE ITEM";
+
+    /**
+     * The value returned when the user confirms a request to remove an item.
+     */
+    public static final int ITEM_REMOVE_INDICATOR = -42069;
+    //#endregion
 
     //#region FXML
     public Label lblDisplay;
+
     public Button btn1;
     public Button btn2;
     public Button btn3;
@@ -24,30 +47,35 @@ public final class NumericInput extends FXMLController {
     public Button btn8;
     public Button btn9;
     public Button btn0;
+
     public Button btnEnter;
     public Button btnDelete;
     //#endregion
 
+    //#region properties
+    /**
+     * The alert window that is used to parent and display the popup dialog
+     * for this dialog.
+     */
     private Alert alert;
+    //#endregion
 
-    public static final String NUMERIC_INPUT_FXML = "./fxml/numericInput.fxml";
-
-    public static final String ITEM_REMOVE = "REMOVE_ITEM";
-
-    public static final int ITEM_REMOVE_INDICATOR = -42069;
-
+    /**
+     * Shows this FXML controller's content in an Alert window,
+     * and waits for the user to confirm their input.
+     */
     public void showAndWait(){
         // CREATE
         alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.getDialogPane().setContent(anchorPane);
+        alert.getDialogPane().setContent(getAnchorPane());
         alert.getDialogPane().setPrefSize(400, 600);
 
-        // STYLE
+        // REMOVE HEADER
         alert.setHeaderText(null); // These two lines remove the top content, removing the alert header.
         alert.setGraphic(null);
 
-        alert.getDialogPane().getStylesheets().add(
-                getClass().getResource("../style/pos.css").toExternalForm());
+        // CSS
+        alert.getDialogPane().getStylesheets().add(getClass().getResource("../style/pos.css").toExternalForm());
         alert.getDialogPane().getStyleClass().add("global-base");
 
         // SHOW
@@ -55,13 +83,18 @@ public final class NumericInput extends FXMLController {
         alert.showAndWait();
     }
 
+    /**
+     * Appends a numeric to the end of the display's content.
+     * @param i the numeric to append.
+     */
     private void append(int i){
-        if (lblDisplay.getText() == ITEM_REMOVE)
-            lblDisplay.setText("");
-        lblDisplay.setText(lblDisplay.getText() + i);
+        if (lblDisplay.getText() == ITEM_REMOVE_TEXT)                   // If there is a remove request,
+            lblDisplay.setText("");                                     // clear it. Don't append to it.
+
+        lblDisplay.setText(lblDisplay.getText() + i);                   // Append numeric as text.
     }
 
-
+    //#region FXML UI events
     @FXML
     private void delete(){
         if (lblDisplay.getText().length() < 1)
@@ -124,29 +157,25 @@ public final class NumericInput extends FXMLController {
     public void enter() {
         alert.close();
     }
+    //#endregion
 
+    //#region methods
+    /**
+     * Gets the resulting value of this numeric dialog.
+     * @return integer representation of the byte range value selected
+     * OR
+     * @return this#ITEM_REMOVE_INDICATOR if user requested the item to be removed.
+     */
     public int value(){
-        try {
-            if (lblDisplay.getText() == ITEM_REMOVE)
-                return ITEM_REMOVE_INDICATOR;
-            else
-                return Integer.parseInt(lblDisplay.getText());
-        } catch (Exception e){
-            RuntimeHelper.alertFailiure("Invalid Numeric Input", e);
+        try {                                                               // TRY:    'case it's somehow possible that the content of the display cannot cast to an integer.
+            if (lblDisplay.getText() == ITEM_REMOVE_TEXT)                   //         If the user has requested item removal,
+                return ITEM_REMOVE_INDICATOR;                               // RETURN: ITEM_REMOVE_INDICATOR
+            else                                                            //         the user had not requested item removal,
+                return Integer.parseInt(lblDisplay.getText());              // RETURN: integer representation of the value selected.
+        } catch (ClassCastException e){
+            RuntimeHelper.alertFailiure("Invalid Numeric Input", e);     // Handle cast exception.
         }
-            return 0;
-    }
-
-    public static int promptNumericInput(int defaultValue){
-        try {
-            NumericInput inputController = (NumericInput) FXMLController.create(NUMERIC_INPUT_FXML, null);
-            inputController.lblDisplay.setText(String.valueOf(defaultValue));
-            inputController.showAndWait();
-            return inputController.value();
-        } catch (IOException e) {
-            RuntimeHelper.alertFailiure("Failed to prompt for input", e);
-        }
-            return 0;
+        return 0;
     }
 
     public void min() {
@@ -154,10 +183,29 @@ public final class NumericInput extends FXMLController {
     }
 
     public void remove() {
-        lblDisplay.setText(ITEM_REMOVE);
+        lblDisplay.setText(ITEM_REMOVE_TEXT);
     }
 
     public void max() {
         lblDisplay.setText(String.valueOf(Byte.MAX_VALUE));
     }
+    //#endregion
+
+    //#region static utility
+    /**
+     * Prompts the user for a numeric input, and returns the resulting value.
+     * @param defaultValue the default value to display.
+     */
+    public static int promptNumericInput(int defaultValue){
+        try {                                                                                                             // TRY:    FXML load failure
+            NumericInput inputController = (NumericInput) FXMLController.create(NUMERIC_INPUT_FXML, null); //         create controller
+            inputController.lblDisplay.setText(String.valueOf(defaultValue));                                             //         set default
+            inputController.showAndWait();                                                                                //         Show to user
+            return inputController.value();                                                                               // RETURN: result from prompt.
+        } catch (IOException e) {
+            RuntimeHelper.alertFailiure("Failed to prompt for input", e);                                              // Handle FXML failed to load.
+        }
+        return defaultValue;                                                                                              // RETURN: default, did not get input.
+    }
+    //#endregion
 }

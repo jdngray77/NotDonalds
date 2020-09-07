@@ -129,7 +129,7 @@ public final class pos extends FXMLController {
 
         try {
             lastItem = orderItem.create(this, item.clone());
-            orderTileView.getChildren().add(lastItem.anchorPane);
+            orderTileView.getChildren().add(lastItem.getAnchorPane());
         } catch (IOException e) {
             e.printStackTrace();
             RuntimeHelper.alertFailiure("Failed to add item to order (" + e.getMessage() + ")");
@@ -140,7 +140,7 @@ public final class pos extends FXMLController {
 
     public void removeOrderItem(orderItem orderItem){
         removeOrderItem(orderItem.getItem());
-        orderTileView.getChildren().remove(orderItem.anchorPane);
+        orderTileView.getChildren().remove(orderItem.getAnchorPane());
         reRenderSuborder();
     }
 
@@ -168,7 +168,7 @@ public final class pos extends FXMLController {
      */
     public void addMenuItem(Item item) throws IOException {
         menuTile c = (menuTile) menuTile.create(this, item);
-        menuTilePanel.getChildren().add(c.anchorPane);
+        menuTilePanel.getChildren().add(c.getAnchorPane());
     }
 
 
@@ -194,7 +194,7 @@ public final class pos extends FXMLController {
         orderTileView.getChildren().clear();
         for (Item item : activeOrder.items) {
             try {
-                orderTileView.getChildren().add(orderItem.create(this, item).anchorPane);
+                orderTileView.getChildren().add(orderItem.create(this, item).getAnchorPane());
             } catch (IOException e) {
                 RuntimeHelper.log(this, "[WARN] Failed to render order item " + item + " (" + e.getMessage() + ")");
             }
