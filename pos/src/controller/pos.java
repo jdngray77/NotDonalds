@@ -39,6 +39,11 @@ public final class pos extends FXMLController {
      * Not static since order items are children to this FXMLcontroller instance.
      */
     public final orderItem NULL_ORDER_ITEM = (orderItem) orderItem.create(this, Item.NULL_ITEM);
+
+    /**
+     * Determines if the background of order items on this pos are to flash when they are updated.
+     */
+    protected boolean flashOrderItem = true;
     //#endregion
 
     //#region FXML region
@@ -208,7 +213,7 @@ public final class pos extends FXMLController {
 
     //#region utility methods
     protected boolean isLastItem(Item item) {
-        return item.name() == lastItem.getItem().name();
+            return item.name() == lastItem.getItem().name();
     }
 
     /**
@@ -254,6 +259,10 @@ public final class pos extends FXMLController {
 
     public void pricetest() {
          new multiplication();
+    }
+
+    public void setOrderFlash(ActionEvent actionEvent) {
+
     }
     //#endregion utility methods
 

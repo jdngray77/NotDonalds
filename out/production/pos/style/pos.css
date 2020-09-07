@@ -40,6 +40,14 @@
     -fx-background-radius: 20px;
 }
 
+.menu-tile:hover {
+       -fx-background-color: rgba(110,110,110,255);
+}
+
+.menu-tile:pressed {
+    -fx-background-color: rgba(50,50,50,255);
+}
+
 
 // Menu Bar
 .menu, .menu-item, .context-menu, .button {

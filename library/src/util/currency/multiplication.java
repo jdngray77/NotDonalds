@@ -44,6 +44,7 @@ public class multiplication extends JFrame {
     }
 
     private void calculate() {
+
         try {
             // This is acctually horrendous. Unlucky!
             lblExpected.setText(String.valueOf(Float.parseFloat(spnDecimal.getValue() + "." + spnFraction.getValue()) * Float.parseFloat(spnTimes.getValue().toString())));

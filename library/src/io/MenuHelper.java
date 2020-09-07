@@ -150,10 +150,22 @@ public class MenuHelper {
         return list;
     }
 
+    /**
+     * Fetches images from resources on disk, locating using the name of the item.
+     *
+     * TODO P3: MEMORY LEAK
+     * TODO Lack of cache causes every image to be loaded into ram from fresh,
+     * TODO using more ram with duplicate images, and increasing disk access.
+     * TODO https://github.com/Shinkson47/NotDonalds/issues/9
+     *
+     * @param item To get a representing image for.
+     * @return Image from disk resources that matches.
+     */
     public static Image getImage(Item item) {
         Image image = MenuHelper.DEFAULT_ITEM_IMG;
         try {
             image = new Image(MenuHelper.class.getResource("/img/" + item.name() + ".png").toString());
+            RuntimeHelper.log(MenuHelper.class, "[IO INFO] Loaded image for " + item.name() + "");
         } catch (Exception e){
             RuntimeHelper.log(MenuHelper.class, "[WARN] " + item.name() + " has no matching image!");
         }

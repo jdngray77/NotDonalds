@@ -110,4 +110,8 @@ public abstract class FXMLController extends Parent {
     private static FXMLController create(FXMLController controller) throws IOException {
         return null;
     }
+
+    protected pos posParent(){
+        return (pos) parentController;
+    }
 }

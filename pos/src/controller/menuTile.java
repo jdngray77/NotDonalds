@@ -53,8 +53,7 @@ public final class menuTile extends FXMLController {
      * Menu tile has been tapped on the POS window. Adds the item to the active order.
      */
     public void select(){
-            ((pos)parentController)                                                                                     // Get the controller of the window (parent to this menu item tile) and cast it to a pos controller to get access to the jfx injected objects.
-                    .addOrderItem(item);                                                                                // Add the item to the active order.
+            posParent().addOrderItem(item);                                                                             // Add the item to the active order.
     }
 
 

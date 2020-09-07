@@ -133,6 +133,7 @@
                   </Menu>
                   <Menu mnemonicParsing="false" text="Rendering">
                      <items>
+                        <CheckMenuItem mnemonicParsing="false" onAction="#setOrderFlash" text="Order Items flash on re-render" />
                         <MenuItem mnemonicParsing="false" onAction="#renderMenu" text="Re-Render Menu" />
                         <MenuItem mnemonicParsing="false" onAction="#reRenderOrder" text="Re-Render Order" />
                         <MenuItem mnemonicParsing="false" onAction="#reRenderSuborder" text="Re-Render Sub-Order" />
