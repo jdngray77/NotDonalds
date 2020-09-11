@@ -178,15 +178,21 @@ public final class NumericInput extends FXMLController {
         return 0;
     }
 
-    public void min() {
+    /**
+     *
+     */
+    @FXML
+    private void min() {
         lblDisplay.setText("1");
     }
 
-    public void remove() {
+    @FXML
+    private void remove() {
         lblDisplay.setText(ITEM_REMOVE_TEXT);
     }
 
-    public void max() {
+    @FXML
+    private void max() {
         lblDisplay.setText(String.valueOf(Byte.MAX_VALUE));
     }
     //#endregion

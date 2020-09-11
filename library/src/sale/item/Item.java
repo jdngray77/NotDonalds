@@ -34,6 +34,16 @@ public class Item extends Sellable {
     public static final Item NULL_ITEM = new Item("INVALID", new ShortPrice((short) 0, (short) 0, '!', true));
 
     /**
+     * Maximum quantity permitable for an item.
+     */
+    public static final byte MAX_QUANTITY = Byte.MAX_VALUE;
+
+    /**
+     * Minimum quantity permitable for an item.
+     */
+    public static final byte MIN_QUANTITY = 1;
+
+    /**
      * Price of the Item
      *
      * @apiNote Via abstraction, Short, Small or Long prices are compatible here.
@@ -51,7 +61,7 @@ public class Item extends Sellable {
      * @return true if i is between 0 and 256.
      */
     public static boolean inQuantityRange(int i) {
-        return (i <= Byte.MAX_VALUE && i > 0);
+        return (i <= MAX_QUANTITY && i >= MIN_QUANTITY);
     }
 
     /**
@@ -100,7 +110,7 @@ public class Item extends Sellable {
      * Alert out of range.
      */
     private static void alertOOR(){
-        RuntimeHelper.alertFailiure("Item quantity must be between 0 - " + Byte.MAX_VALUE);
+        RuntimeHelper.alertFailiure("Item quantity must be between" + MIN_QUANTITY + " £ " + MAX_QUANTITY);
     }
 
     public void setQuantity(byte i){

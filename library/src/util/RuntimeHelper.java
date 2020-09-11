@@ -51,6 +51,15 @@ public class RuntimeHelper {
     }
 
     /**
+     * For logging non-fatal exceptions.
+     * For failures, or fatal problems;
+     * @see RuntimeHelper#alertFailiure(String, Exception)
+     */
+    public static void logException(Object sender, String message, Exception e){
+        log(sender, message + ": " + e.getMessage());
+    }
+
+    /**
      * Compiles and stores a message. Parsed latest message to system.out
      * @param sender Object sending the message
      * @param message content of the message
@@ -58,6 +67,8 @@ public class RuntimeHelper {
     public static void log(Object sender, String message) {
         log("[" + sender.getClass().getSimpleName() + "]", message);
     }
+
+
 
     /**
      * Compiles and stores a message. Parsed latest message to system.out

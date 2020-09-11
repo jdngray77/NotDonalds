@@ -7,7 +7,6 @@ import javafx.stage.Stage;
 import network.Client;
 import network.packet.Packet;
 import network.packet.PacketType;
-import sale.menu.Menu;
 import util.RuntimeHelper;
 
 import java.io.IOException;
@@ -26,12 +25,11 @@ public class main extends Application {
      * Overrides JavaFX Application Start()
      * @param primaryStage
      * @throws IOException
+     * @version 1.1
      */
     @Override
     public void start(Stage primaryStage)  {
-        RuntimeHelper.log(this, "[PRELOAD] Validating startup configuration..");
-        if (!assertConnection() || !loadMenu()) return;                                                                 // Before loading UI, check that a server is available then fetch the menu from it.
-        RuntimeHelper.log(this, "[PRELOAD] Able to start, commence!");
+        preLoad();
 
         try {                                                                                                           // PREPARE THE LOADER
             controller = (pos) FXMLController.create(pos.POS_FXML, null);
@@ -54,6 +52,24 @@ public class main extends Application {
         } catch (IOException e) {
             alertStartFailure("Failed to create ui: ",e);
         }
+
+        postLoad();
+    }
+
+    /**
+     * Events / logic to be executed before attempting to startup.
+     */
+    private void preLoad() {
+        RuntimeHelper.log(this, "[PRELOAD] Validating startup configuration..");
+        if (!assertConnection() || !loadMenu()) return;                                                                 // Before loading UI, check that a server is available then fetch the menu from it.
+        RuntimeHelper.log(this, "[PRELOAD] Able to start, commence!");
+    }
+
+    /**
+     * Manually added list of events to be triggered after pos has loaded.
+     */
+    private void postLoad() {
+        controller.setOrderFlash();
     }
 
     /**
@@ -86,7 +102,7 @@ public class main extends Application {
     private boolean loadMenu(){
         RuntimeHelper.log(this, "[CONFIG] Grabbing menu from server..");
         try {
-            MenuHelper.menu = (Menu) Client.sendToServer(new Packet(PacketType.MENU_REQUEST)).getPacketData();
+            MenuHelper.loadMenuFromServer();
             RuntimeHelper.log(this, "[CONFIG] Got it!");
             return true;
         } catch (IOException e) {

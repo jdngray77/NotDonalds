@@ -68,7 +68,8 @@ public final class menuTile extends FXMLController {
      * @param _item item this tile represents
      */
     public menuTile setItem(Item _item){
-        //#endregion   item = _item;
+        //#endregion
+        item = _item;
         lblPrice.setText(item.price().asDisplay());
         lblName.setText(item.name());
         itemImage.setImage(MenuHelper.getImage(item));

@@ -87,10 +87,12 @@ public class orderItem extends FXMLController {
      * Sets the item this order item represents,
      * then re-renders to display it.
      * @param _item
+     * @return self, for neater code when setting item upon creation
      */
-    public void setItem(Item _item) {
+    public orderItem setItem(Item _item) {
         item = _item;
         render();
+        return this;
     }
     //#endregion
 
@@ -122,42 +124,75 @@ public class orderItem extends FXMLController {
     public void reRender(){
         txtPrice.setText(item.price().asDisplay());
         txtQuantity.setText(String.valueOf(item.getQuantity()));
-        posParent().reRenderSuborder();                             // Updates the order meta, i.e order total, item count.
-        animateUpdate();                                            // Trigger background animation.
+        posParent().reRenderSuborder();                                                                                 // Updates the order meta, i.e order total, item count.
+        animateUpdate();                                                                                                // Trigger background animation.
     }
     //#endregion
 
 
+    //#region FXML events
 
-
+    /**
+     * User has requested to increment the quantity of item in thier order.
+     *
+     * Requests to increase quantity by 1,
+     * then re-renders self.
+     * @see Item#addQuantity
+     */
+    @FXML
     public void inc(){
         item.addQuantity(1);
         render();
     }
 
+    /**
+     * User has requested to increment the quantity of item in their order.
+     *
+     * Requests to decrease quantity by 1.
+     *
+     * If the
+     * then re-renders self.
+     * @see Item#addQuantity
+     */
+    @FXML
     public void dec(){
-        item.addQuantity(-1);
+        item.addQuantity(-1);                                                                                         // Request decrement
 
-        if (item.getQuantity() < 1)
-            remove();
+        if (item.getQuantity() < Item.MIN_QUANTITY)                                                                      // If below min,
+            remove();                                                                                                    // remove item from order.
         else
-            render();
+            render();                                                                                                    // Otherwise continue; render. No point calling for a render if this has been removed.
     }
 
+
+    /**
+     * User has tapped the quantity,
+     * prompt for numeric input to set quantity with.
+     *
+     * If user confirms a remove item request, this this item
+     * is removed from the parenting order.
+     */
+    @FXML
+    public void readQuantity() {
+        int input = NumericInput.promptNumericInput(item.getQuantity());                                                //         Open a numeric input prompt, and store the result locally.
+        if (input == NumericInput.ITEM_REMOVE_INDICATOR)                                                                // IF:     If the result was a remove request,
+            remove();                                                                                                   //         Remove this item from the order
+         else                                                                                                           // ELSE:   The result was a numeric,
+            item.setQuantity(input);                                                                                    //         Request to set the item quantity to the result.
+        reRender();                                                                                                     // FINALLY:Render the result of this event.
+    }
+
+    //#endregion
+
+    //#region methods
+
+    /**
+     * Removes this item from the containing order.
+     * Does not destroy FXML elements, or instance;
+     * thus it's possible to recycle or re-add instances.
+     */
     public void remove(){
         posParent().removeOrderItem(this);
-    }
-
-    public void readQuantity() {
-        int input = NumericInput.promptNumericInput(item.getQuantity());
-        if (input == NumericInput.ITEM_REMOVE_INDICATOR) {
-            remove();
-            return;
-        } else {
-            item.setQuantity(input);
-        }
-
-        reRender();
     }
 
     /**
@@ -170,8 +205,8 @@ public class orderItem extends FXMLController {
         if (!posParent().flashOrderItem) return;                                                                        // Don't flash if not enabled.
 
         final Animation animation = new Transition() {                                                                  // Define animation to play.
-                                                                                                                        // Local Final, only created the first time this is called.
-                                                                                                                        // Local, not class level - only way to get access to super.anchorPane.
+            // Local Final, only created the first time this is called.
+            // Local, not class level - only way to get access to super.anchorPane.
             // Simplified constructor
             {
                 setCycleDuration(Duration.millis(500));                                                                 // 0.5 sec
@@ -185,17 +220,16 @@ public class orderItem extends FXMLController {
             }
         };
 
-        animation.play();
+        animation.play();                                                                                               // Start animation; let FXML handle.
     }
+    //#endregion
 
     //#region static utility
     /**
-     Create a new orderItem from FXML.
+     * Create a new orderItem populated from FXML, pre rendered to represent an item.
      */
     public static orderItem create(FXMLController controller, Item _item) throws IOException {
-        orderItem c = (orderItem) FXMLController.create(orderItem.ORDER_ITEM_FXML, controller);
-        c.setItem(_item);
-        return c;
+        return ((orderItem) FXMLController.create(orderItem.ORDER_ITEM_FXML, controller)).setItem(_item);
     }
     //#endregion
 }
