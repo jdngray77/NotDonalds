@@ -1,5 +1,6 @@
 package swing;
 
+import controller.NumericInput;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
@@ -13,6 +14,6 @@ public class test extends Application {
         primaryStage.setScene(scene);
         primaryStage.setFullScreen(true);
         primaryStage.show();
-        int i = numericInput.New("test").value();
+        int i = NumericInput.promptNumericInput(2);
     }
 }

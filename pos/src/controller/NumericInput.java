@@ -1,5 +1,6 @@
 package controller;
 
+import fxml.FXMLController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -52,6 +53,10 @@ public final class NumericInput extends FXMLController {
     public Button btnDelete;
     //#endregion
 
+    public NumericInput(){
+        super(NUMERIC_INPUT_FXML);
+    }
+
     //#region properties
     /**
      * The alert window that is used to parent and display the popup dialog
@@ -75,7 +80,7 @@ public final class NumericInput extends FXMLController {
         alert.setGraphic(null);
 
         // CSS
-        alert.getDialogPane().getStylesheets().add(getClass().getResource("../style/pos.css").toExternalForm());
+        alert.getDialogPane().getStylesheets().add(getClass().getResource("../style/stylesheet.css").toExternalForm());
         alert.getDialogPane().getStyleClass().add("global-base");
 
         // SHOW

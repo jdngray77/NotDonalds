@@ -1,4 +1,4 @@
-package controller;
+package fxml;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -19,7 +19,6 @@ public abstract class FXMLController extends Parent {
      * Path to the FXML definition this controller commands.
      */
     private String FXML = "";
-
 
     /**
      * Local FXML Loader for creating and loading FXML documents
@@ -43,12 +42,16 @@ public abstract class FXMLController extends Parent {
 
     //#region getter / setter
 
+    public String getFXML(){
+        return FXML;
+    }
+
     /**
      * returns the parent Controller cast to the most common parent; pos.
      * @return this#parentController cast to pos.
      */
-    protected pos posParent(){
-        return (pos) parentController;
+    protected <T> T castParent(){
+        return (T) parentController;
     }
 
     /**
@@ -67,14 +70,6 @@ public abstract class FXMLController extends Parent {
     //#endregion
 
     //#region Constructor
-    /**
-     * Default constructor, called when created by JavaFX.
-     * @apiNote if creating manually use a populated constructor.
-     */
-    public FXMLController(){
-        this("");
-    }
-
     /**
      * Creates a new FXML controller.
      * Does NOT load FXML or create scene.

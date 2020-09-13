@@ -1,5 +1,6 @@
 package controller;
 
+import fxml.FXMLController;
 import io.MenuHelper;
 import javafx.animation.Animation;
 import javafx.animation.Interpolator;
@@ -124,7 +125,7 @@ public class orderItem extends FXMLController {
     public void reRender(){
         txtPrice.setText(item.price().asDisplay());
         txtQuantity.setText(String.valueOf(item.getQuantity()));
-        posParent().reRenderSuborder();                                                                                 // Updates the order meta, i.e order total, item count.
+        super.<pos>castParent().reRenderSuborder();                                                                                 // Updates the order meta, i.e order total, item count.
         animateUpdate();                                                                                                // Trigger background animation.
     }
     //#endregion
@@ -192,7 +193,7 @@ public class orderItem extends FXMLController {
      * thus it's possible to recycle or re-add instances.
      */
     public void remove(){
-        posParent().removeOrderItem(this);
+        super.<pos>castParent().removeOrderItem(this);
     }
 
     /**
@@ -202,7 +203,7 @@ public class orderItem extends FXMLController {
      * Called on a re-render event, since updates trigger a re-render of order items.
      */
     private void animateUpdate(){
-        if (!posParent().flashOrderItem) return;                                                                        // Don't flash if not enabled.
+        if (!super.<pos>castParent().flashOrderItem) return;                                                                        // Don't flash if not enabled.
 
         final Animation animation = new Transition() {                                                                  // Define animation to play.
             // Local Final, only created the first time this is called.

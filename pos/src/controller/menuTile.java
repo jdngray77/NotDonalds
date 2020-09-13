@@ -1,5 +1,6 @@
 package controller;
 
+import fxml.FXMLController;
 import io.MenuHelper;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -84,7 +85,7 @@ public final class menuTile extends FXMLController {
      * Adds the item to the active order.
      */
     public void select(){
-            posParent().addOrderItem(item);                                                                             // Add the item to the active order.
+            super.<pos>castParent().addOrderItem(item);                                                                 // Add the item to the active order.
     }
     //#endregion
 

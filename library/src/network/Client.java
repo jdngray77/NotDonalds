@@ -74,6 +74,30 @@ public final class Client {
             for (PacketType e : PacketType.values())
                 sendToServer(new Packet(e));
     }
+
+    /**
+     * Tests connection between between this client and a network server.
+     *
+     * Broadcasts a 'PING', expecting to connect and receive an 'ACKNOWLEDGE' in response.
+     *
+     * @throws IOException If this client fails to connnect, send a packet, and recieve the expected response in a compatible form.
+     * @apiNote serialization versions for the class 'network.packet.Packet' between the client and server implementations
+     * must match for serialization to be valid.
+     */
+    public static boolean assertConnection() {
+        RuntimeHelper.log(Client.class, "[CONFIG] Validating server connection..");
+        try{
+            if (Client.sendToServer(new Packet(PacketType.PING)).type() != PacketType.ACKNOWLEDGE) throw new IOException("Did not receive a valid ping response.");
+            else {
+                RuntimeHelper.log(Client.class, "[CONFIG] Valid!");
+                return true;
+            }
+        } catch (Exception e) {
+            RuntimeHelper.log(Client.class, "[CONFIG] Connection not valid!");
+            RuntimeHelper.alertFailiure("[CONFIG] Failed to connect to the server, ",e);
+            return false;
+        }
+    }
 }
 
 
