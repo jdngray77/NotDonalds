@@ -3,8 +3,22 @@
 # NotDonalds
 We made a restaurant ordering system because we were bored.
 
+# Functionality : 
+ - A server loads a menu
+ - A POS loads the menu over the network
+ - The POS compiles orders through a responsive JavaFX Interface.
 
-# Project Brief
+
+# Main POS user interface : 
+![Screen Shot 2022-05-25 at 14 07 15](https://user-images.githubusercontent.com/50697488/170269675-f17358d8-10e8-4ca6-aa5d-8122cc7d6bc9.png)
+
+
+
+https://user-images.githubusercontent.com/50697488/170269816-ffc17846-42ad-4ca6-87f1-d3c49a2f56e2.mov
+
+
+
+# Internal Project Brief
 
 Basically, make a Resturant Ordering System
 
